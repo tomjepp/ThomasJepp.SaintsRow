@@ -81,6 +81,12 @@ namespace ThomasJepp.SaintsRow
             stream.Read(data, 0, 4);
             return BitConverter.ToUInt32(data, 0);
         }
+
+        public static void WriteUInt32(this Stream stream, UInt32 value)
+        {
+            byte[] data = BitConverter.GetBytes(value);
+            stream.Write(data, 0, 4);
+        }
         #endregion
 
         #region String helpers

@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThomasJepp.SaintsRow", "Sai
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThomasJepp.SaintsRow.ExtractStrings", "ThomasJepp.SaintsRow.ExtractStrings\ThomasJepp.SaintsRow.ExtractStrings.csproj", "{89DD3C8D-BD73-445B-A6FE-76A3FD4CD49E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThomasJepp.SaintsRow.BuildStrings", "ThomasJepp.SaintsRow.BuildStrings\ThomasJepp.SaintsRow.BuildStrings.csproj", "{D100FEC0-13A4-47C0-AE65-0BDABEEE81B4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{89DD3C8D-BD73-445B-A6FE-76A3FD4CD49E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89DD3C8D-BD73-445B-A6FE-76A3FD4CD49E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89DD3C8D-BD73-445B-A6FE-76A3FD4CD49E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D100FEC0-13A4-47C0-AE65-0BDABEEE81B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D100FEC0-13A4-47C0-AE65-0BDABEEE81B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D100FEC0-13A4-47C0-AE65-0BDABEEE81B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D100FEC0-13A4-47C0-AE65-0BDABEEE81B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,19 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{224AAF61-4D5E-40B8-AC62-9F32C1F57235}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{ED76BEBC-F835-4FFF-B7E3-3E8A96B87BCF}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ThomasJepp.SaintsRow.RecursiveExtractor</RootNamespace>
-    <AssemblyName>ThomasJepp.SaintsRow.RecursiveExtractor</AssemblyName>
+    <RootNamespace>CmdLine</RootNamespace>
+    <AssemblyName>CmdLine</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <SccProjectName />
+    <SccLocalPath />
+    <SccAuxPath />
+    <SccProvider />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -21,15 +27,22 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>CmdLineKey.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -41,20 +54,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="CommandArgument.cs" />
+    <Compile Include="CommandArgumentHelp.cs" />
+    <Compile Include="CommandLineParameterAttribute.cs" />
+    <Compile Include="CommandEnvironment.cs" />
+    <Compile Include="CommandLine.cs" />
+    <Compile Include="CommandLineArgumentsAttribute.cs" />
+    <Compile Include="CommandLineParameter.cs" />
+    <Compile Include="CommandLineArgumentInvalidException.cs" />
+    <Compile Include="CommandLineRequiredArgumentMissingException.cs" />
+    <Compile Include="CommandLineException.cs" />
+    <Compile Include="CommandLineHelpException.cs" />
+    <Compile Include="ICommandEnvironment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CmdLine\CmdLine.csproj">
-      <Project>{ed76bebc-f835-4fff-b7e3-3e8a96b87bcf}</Project>
-      <Name>CmdLine</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SaintsRow\ThomasJepp.SaintsRow.csproj">
-      <Project>{f660c694-866a-4814-936e-5a180d8543d2}</Project>
-      <Name>ThomasJepp.SaintsRow</Name>
-    </ProjectReference>
+    <None Include="CmdLineKey.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

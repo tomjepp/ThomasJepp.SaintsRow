@@ -3,35 +3,51 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 
+using CmdLine;
 using ThomasJepp.SaintsRow.Strings;
 
 namespace ThomasJepp.SaintsRow.BuildStrings
 {
     public static class Program
     {
+        [CommandLineArguments(Program = "ThomasJepp.SaintsRow.BuildStrings", Title = "Saints Row Localisation File Builder", Description = "Builds Saints Row PC Localisation files. Supports Saints Row 2, Saints Row: The Third and Saints Row IV.")]
+        internal class Options
+        {
+            [CommandLineParameter(Command = "sr2", Default = false, Description = "Build files suitable for Saints Row 2. If not specified, files suitable for Saints Row: The Third and Saints Row IV will be built.", Name = "Saints Row 2 Mode")]
+            public bool SaintsRow2Mode { get; set; }
+
+            [CommandLineParameter(Name = "input", ParameterIndex = 1, Required = true, Description = "The file containing the language strings to use.")]
+            public string Input { get; set; }
+
+            [CommandLineParameter(Name = "output", ParameterIndex = 2, Required = false, Default = "output", Description = "The output file to create. If not specified, the input filename will be used with the extension changed to \".le_strings\".")]
+            public string Output { get; set; }
+        }
+
         public static void Main(string[] args)
         {
-            if (args.Length == 0)
+            Options options = null;
+
+            try
             {
-                Console.WriteLine("Usage:\nThomasJepp.SaintsRow.BuildStrings.exe [-sr2] <text file>");
+                options = CommandLine.Parse<Options>();
+            }
+            catch (CommandLineException exception)
+            {
+                Console.WriteLine(exception.ArgumentHelp.Message);
+                Console.WriteLine();
+                Console.WriteLine(exception.ArgumentHelp.GetHelpText(Console.BufferWidth));
+
+#if DEBUG
+                Console.ReadLine();
+#endif
                 return;
             }
 
-            bool sr2Mode = false;
+            string outputFile = options.Output != null ? options.Output : Path.ChangeExtension(options.Input, ".le_strings");
 
-            for (int i = 0; i < args.Length - 1; i++)
-            {
-                string arg = args[i];
-                if (arg.ToLowerInvariant() == "-sr2")
-                    sr2Mode = true;
-            }
+            Console.WriteLine("Packing {0} and creating {1}...", options.Input, outputFile);
 
-            string file = args[args.Length - 1];
-            string outputFile = Path.ChangeExtension(file, ".le_strings");
-
-            Console.WriteLine("Packing {0} and creating {1}...", file, outputFile);
-
-            string[] lines = File.ReadAllLines(file);
+            string[] lines = File.ReadAllLines(options.Input);
 
             UInt16 bucketCount = (UInt16)(lines.Length / 5); // work this out properly
             if (bucketCount < 32)
@@ -47,7 +63,7 @@ namespace ThomasJepp.SaintsRow.BuildStrings
             else 
                 bucketCount = 1024;
 
-            StringFile stringFile = new StringFile(bucketCount, sr2Mode);
+            StringFile stringFile = new StringFile(bucketCount, options.SaintsRow2Mode);
 
             foreach (string line in lines)
             {

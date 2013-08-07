@@ -45,6 +45,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CmdLine\CmdLine.csproj">
+      <Project>{ed76bebc-f835-4fff-b7e3-3e8a96b87bcf}</Project>
+      <Name>CmdLine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SaintsRow\ThomasJepp.SaintsRow.csproj">
       <Project>{f660c694-866a-4814-936e-5a180d8543d2}</Project>
       <Name>ThomasJepp.SaintsRow</Name>

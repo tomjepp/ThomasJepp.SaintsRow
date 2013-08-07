@@ -2,27 +2,46 @@
 using System.Collections.Generic;
 using System.IO;
 
+using CmdLine;
 using ThomasJepp.SaintsRow.Packfiles;
 
 namespace ThomasJepp.SaintsRow.RecursiveExtractor
 {
     class Program
     {
+        [CommandLineArguments(Program = "ThomasJepp.SaintsRow.RecursiveExtractor", Title = "Saints Row Recursive Packfile Extractor", Description = "Extracts all Saints Row PC packfiles in the specified folder and any packfiles that they contain. Supports Saints Row 2, Saints Row: The Third and Saints Row IV.")]
+        internal class Options
+        {
+            [CommandLineParameter(Name = "source", ParameterIndex = 1, Required = true, Description = "The folder containing packfiles to extract.")]
+            public string Source { get; set; }
+
+            [CommandLineParameter(Name = "output", ParameterIndex = 2, Required = false, Default="output", Description = "The folder to extract the packfiles to. This will be created if it does not already exist. If not specified, a folder named \"output\" will be created in the current directory.")]
+            public string Output { get; set; }
+       }
+
         static void Main(string[] args)
         {
-            if (args.Length != 2)
+            Options options = null;
+
+            try
             {
-                Console.WriteLine("Usage:");
-                Console.WriteLine("ThomasJepp.SaintsRow.RecursiveExtractor <input folder> <output folder>");
+                options = CommandLine.Parse<Options>();
+            }
+            catch (CommandLineException exception)
+            {
+                Console.WriteLine(exception.ArgumentHelp.Message);
+                Console.WriteLine();
+                Console.WriteLine(exception.ArgumentHelp.GetHelpText(Console.BufferWidth));
+
+#if DEBUG
+                Console.ReadLine();
+#endif
                 return;
             }
 
-            string inputFolder = args[0];
-            string outputFolder = args[1];
+            Directory.CreateDirectory(options.Output);
 
-            Directory.CreateDirectory(outputFolder);
-
-            string[] files = Directory.GetFiles(inputFolder);
+            string[] files = Directory.GetFiles(options.Source);
 
             Dictionary<string, IPackfile> packfiles = new Dictionary<string, IPackfile>();
 
@@ -46,13 +65,13 @@ namespace ThomasJepp.SaintsRow.RecursiveExtractor
 
             foreach (var packfilePair in packfiles)
             {
-                Directory.CreateDirectory(Path.Combine(outputFolder, packfilePair.Key));
+                Directory.CreateDirectory(Path.Combine(options.Output, packfilePair.Key));
                 foreach (var file in packfilePair.Value.Files)
                 {
                     currentFile++;
                     if (Path.GetExtension(file.Name) == ".str2_pc")
                     {
-                        string strOutputFolder = Path.Combine(outputFolder, packfilePair.Key, file.Name);
+                        string strOutputFolder = Path.Combine(options.Output, packfilePair.Key, file.Name);
                         Directory.CreateDirectory(strOutputFolder);
                         Console.WriteLine("[{0}/{1}] Extracting {2}: packfile {3} to {4}:", currentFile, totalFiles, packfilePair.Key, file.Name, strOutputFolder);
                         using (Stream strStream = file.GetStream())
@@ -82,7 +101,7 @@ namespace ThomasJepp.SaintsRow.RecursiveExtractor
                     else
                     {
                         Console.Write("[{0}/{1}] Extracting {2}: {3}... ", currentFile, totalFiles, packfilePair.Key, file.Name);
-                        using (Stream outputStream = File.OpenWrite(Path.Combine(outputFolder, packfilePair.Key, file.Name)))
+                        using (Stream outputStream = File.OpenWrite(Path.Combine(options.Output, packfilePair.Key, file.Name)))
                         {
                             using (Stream inputStream = file.GetStream())
                             {

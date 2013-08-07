@@ -103,5 +103,22 @@ namespace ThomasJepp.SaintsRow
             }
         }
         #endregion
+
+        #region Alignment helpers
+        public static void Align(this Stream stream, uint alignment)
+        {
+            long position = stream.Position;
+            long outBy = position % alignment;
+
+            if (outBy == 0)
+                return;
+            else
+            {
+                long offset = alignment - outBy;
+                stream.Seek(offset, SeekOrigin.Current);
+            }
+        }
+        #endregion
+    
     }
 }

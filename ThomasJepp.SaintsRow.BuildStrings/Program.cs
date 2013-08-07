@@ -60,6 +60,14 @@ namespace ThomasJepp.SaintsRow.BuildStrings
                 else
                     hash = UInt32.Parse(key);
 
+                if (stringFile.ContainsKey(hash))
+                {
+                    Console.WriteLine("You are attempting to add a duplicate key to the strings file.");
+                    Console.WriteLine("Key: \"{0}\", Hash: {1}, Value: {2}", key, hash, value);
+                    Console.WriteLine("Other value: {0}", stringFile.GetString(hash));
+                    return;
+                }
+                
                 stringFile.AddString(hash, value);
             }
 

@@ -38,6 +38,19 @@ namespace ThomasJepp.SaintsRow.Strings
             return Buckets[(int)bucketIdx][hash];
         }
 
+        public bool ContainsKey(string key)
+        {
+            UInt32 hash = Hashes.CrcVolition(key);
+            return ContainsKey(hash);
+        }
+
+        public bool ContainsKey(UInt32 hash)
+        {
+            UInt32 mask = (UInt32)(Buckets.Count - 1);
+            UInt32 bucketIdx = (UInt32)(hash & mask);
+            return (Buckets[(int)bucketIdx].ContainsKey(hash));
+        }
+
         public List<UInt32> GetHashes()
         {
             IEnumerable<UInt32> hashes = new List<UInt32>();

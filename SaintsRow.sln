@@ -7,6 +7,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThomasJepp.SaintsRow.Extrac
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThomasJepp.SaintsRow.BuildStrings", "ThomasJepp.SaintsRow.BuildStrings\ThomasJepp.SaintsRow.BuildStrings.csproj", "{D100FEC0-13A4-47C0-AE65-0BDABEEE81B4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Strings", "Strings", "{08693709-C743-408F-9D26-199327AF25A4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CrunchedTables", "CrunchedTables", "{1D1F4777-03FD-4292-97A2-B78ED53DB3A3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Packfiles", "Packfiles", "{75F9E01A-9820-4561-8B28-F5428D626B45}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThomasJepp.SaintsRow.ExtractPackfile", "ThomasJepp.SaintsRow.ExtractPackfile\ThomasJepp.SaintsRow.ExtractPackfile.csproj", "{97B6B509-0EA0-4601-B672-3B2DD8541960}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThomasJepp.SaintsRow.RecursiveExtractor", "ThomasJepp.SaintsRow.RecursiveExtractor\ThomasJepp.SaintsRow.RecursiveExtractor.csproj", "{224AAF61-4D5E-40B8-AC62-9F32C1F57235}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,8 +35,22 @@ Global
 		{D100FEC0-13A4-47C0-AE65-0BDABEEE81B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D100FEC0-13A4-47C0-AE65-0BDABEEE81B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D100FEC0-13A4-47C0-AE65-0BDABEEE81B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97B6B509-0EA0-4601-B672-3B2DD8541960}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97B6B509-0EA0-4601-B672-3B2DD8541960}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97B6B509-0EA0-4601-B672-3B2DD8541960}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97B6B509-0EA0-4601-B672-3B2DD8541960}.Release|Any CPU.Build.0 = Release|Any CPU
+		{224AAF61-4D5E-40B8-AC62-9F32C1F57235}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{224AAF61-4D5E-40B8-AC62-9F32C1F57235}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{224AAF61-4D5E-40B8-AC62-9F32C1F57235}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{224AAF61-4D5E-40B8-AC62-9F32C1F57235}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D100FEC0-13A4-47C0-AE65-0BDABEEE81B4} = {08693709-C743-408F-9D26-199327AF25A4}
+		{89DD3C8D-BD73-445B-A6FE-76A3FD4CD49E} = {08693709-C743-408F-9D26-199327AF25A4}
+		{97B6B509-0EA0-4601-B672-3B2DD8541960} = {75F9E01A-9820-4561-8B28-F5428D626B45}
+		{224AAF61-4D5E-40B8-AC62-9F32C1F57235} = {75F9E01A-9820-4561-8B28-F5428D626B45}
 	EndGlobalSection
 EndGlobal

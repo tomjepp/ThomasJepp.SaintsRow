@@ -36,7 +36,10 @@ namespace ThomasJepp.SaintsRow.ExtractPackfile
                 }
 
                 Console.WriteLine("Done.");
+
+#if DEBUG
                 Console.ReadLine();
+#endif
             }
         }
     }

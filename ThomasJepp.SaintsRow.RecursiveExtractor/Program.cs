@@ -95,7 +95,9 @@ namespace ThomasJepp.SaintsRow.RecursiveExtractor
                 }
             }
 
+#if DEBUG
             Console.ReadLine();
+#endif
         }
     }
 }

@@ -23,8 +23,7 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version0A
 
         public Stream GetStream()
         {
-            uint dataSize = Data.Size.Align((uint)Math.Pow(2, Data.Alignment));
-            byte[] data = new byte[dataSize];
+            byte[] data = new byte[Data.Size];
             long offset = Packfile.DataOffset + Data.Start;
             Packfile.DataStream.Seek(offset, SeekOrigin.Begin);
             if (Data.Flags.HasFlag(PackfileEntryFlags.Compressed))
@@ -35,13 +34,13 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version0A
                 {
                     using (Stream s = new ZlibStream(tempStream, CompressionMode.Decompress, true))
                     {
-                        s.Read(data, 0, (int)dataSize);
+                        s.Read(data, 0, (int)Data.Size);
                     }
                 }
             }
             else
             {
-                Packfile.DataStream.Read(data, 0, (int)dataSize);
+                Packfile.DataStream.Read(data, 0, (int)Data.Size);
             }
 
             MemoryStream ms = new MemoryStream(data);

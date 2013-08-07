@@ -20,13 +20,20 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version0A
 
             m_Files = new List<IPackfileEntry>();
 
+            uint runningPosition = 0;
             List<PackfileEntryFileData> entryFileData = new List<PackfileEntryFileData>();
             for (int i = 0; i < FileData.NumFiles; i++)
             {
                 PackfileEntryFileData data = stream.ReadStruct<PackfileEntryFileData>();
-                if (FileData.Flags.HasFlag(PackfileFlags.Condensed) && FileData.Flags.HasFlag(PackfileFlags.Compressed))
+                if (IsCondensed && IsCompressed)
                     data.Flags = 0;
-                  
+
+                if (IsCondensed)
+                {
+                    data.Start = runningPosition;
+                    runningPosition += data.Size;
+                }
+
                 entryFileData.Add(data);
             }
 
@@ -39,15 +46,21 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version0A
                 stream.Align(2);
             }
 
-            if (FileData.Flags.HasFlag(PackfileFlags.Condensed) && FileData.Flags.HasFlag(PackfileFlags.Compressed))
+            if (IsCondensed && IsCompressed)
             {
                 DataOffset = 0;
-                using (Stream s = new DeflateStream(stream, CompressionMode.Decompress, true))
+                byte[] compressedData = new byte[FileData.CompressedDataSize];
+                stream.Read(compressedData, 0, (int)FileData.CompressedDataSize);
+                using (MemoryStream tempStream = new MemoryStream(compressedData))
                 {
-                    byte[] uncompressedData = new byte[FileData.DataSize];
-                    s.Read(uncompressedData, 0, (int)FileData.DataSize);
-                    DataStream = new MemoryStream(uncompressedData);
+                    using (Stream s = new ZlibStream(tempStream, CompressionMode.Decompress, true))
+                    {
+                        byte[] uncompressedData = new byte[FileData.DataSize];
+                        s.Read(uncompressedData, 0, (int)FileData.DataSize);
+                        DataStream = new MemoryStream(uncompressedData);
+                    }
                 }
+                
             }
             else
             {
@@ -70,6 +83,17 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version0A
         public IPackfileEntry this[int i]
         {
             get { return m_Files[i]; }
+        }
+
+
+        public bool IsCompressed
+        {
+            get { return FileData.Flags.HasFlag(PackfileFlags.Compressed); }
+        }
+
+        public bool IsCondensed
+        {
+            get { return FileData.Flags.HasFlag(PackfileFlags.Condensed); }
         }
     }
 }

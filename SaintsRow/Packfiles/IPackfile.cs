@@ -8,5 +8,8 @@ namespace ThomasJepp.SaintsRow.Packfiles
     {
         List<IPackfileEntry> Files { get; }
         IPackfileEntry this[int i] { get; }
+
+        bool IsCompressed { get; }
+        bool IsCondensed { get; }
     }
 }

@@ -10,7 +10,7 @@ namespace ThomasJepp.SaintsRow.ExtractPackfile
 {
     class Program
     {
-        [CommandLineArguments(Program="ThomasJepp.SaintsRow.ExtractPackfile", Title="Saints Row Packfile Extractor", Description="Extracts Saints Row PC Packfiles (vpp_pc and str2_pc files). Supports Saints Row 2, Saints Row: The Third and Saints Row IV.")]
+        [CommandLineArguments(Program="ThomasJepp.SaintsRow.ExtractPackfile", Title="Saints Row Packfile Extractor", Description="Extracts Saints Row PC Packfiles (vpp_pc and str2_pc files). Supports Saints Row IV.")]
         internal class Options
         {
             [CommandLineParameter(Name="source", ParameterIndex=1, Required=true, Description="The packfile to extract.")]

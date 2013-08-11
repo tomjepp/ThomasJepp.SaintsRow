@@ -8,7 +8,7 @@ namespace ThomasJepp.SaintsRow.BuildPackfile
 {
     class Program
     {
-        [CommandLineArguments(Program = "ThomasJepp.SaintsRow.BuildPackfile", Title = "Saints Row Packfile Builder", Description = "Builds Saints Row PC packfiles (vpp_pc and str2_pc files). Supports Saints Row 2, Saints Row: The Third and Saints Row IV.")]
+        [CommandLineArguments(Program = "ThomasJepp.SaintsRow.BuildPackfile", Title = "Saints Row Packfile Builder", Description = "Builds Saints Row PC packfiles (vpp_pc and str2_pc files). Supports Saints Row IV.")]
         internal class Options
         {
             [CommandLineParameter(Name = "game", ParameterIndex = 1, Required = true, Description = "The game you wish to build a packfile for. Valid options are \"sr2\", \"srtt\" and \"sriv\".")]

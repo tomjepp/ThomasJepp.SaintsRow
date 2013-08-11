@@ -129,10 +129,10 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version0A
 
             foreach (IPackfileEntry entry in Files)
             {
-                offset.Align(2);
+                offset = offset.Align(2);
                 offset += entry.Name.Length;
-                offset += 1;
-                offset.Align(2);
+                offset += 2;
+                offset = offset.Align(2);
             }
 
             return offset;
@@ -150,11 +150,14 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version0A
             long uncompressedSize = 0;
 
             // Output file data
-            Stream dataStream = null;
+            ZlibStream dataStream = null;
             if (IsCompressed && IsCondensed)
             {
                 dataStream = new ZlibStream(stream, CompressionMode.Compress, CompressionLevel.BestCompression, true);
+                dataStream.FlushMode = FlushType.Sync;
             }
+
+            long compressedStart = 0;
 
             foreach (IPackfileEntry entry in Files)
             {
@@ -169,34 +172,36 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version0A
                 if (this.IsCompressed)
                     data.Flags = PackfileEntryFlags.Compressed;
 
+                if (IsCondensed)
+                {
+                    fileStart += data.Size;
+                    fileStart = fileStart.Align(16);
+                }
+
                 if (IsCompressed && IsCondensed)
                 {
-                    long beforeData = stream.Position;
                     fs.CopyTo(dataStream);
                     dataStream.Flush();
-                    stream.Flush();
-                    long afterData = stream.Position;
-                    data.CompressedSize = (uint)(afterData - beforeData);
-                    fileStart += data.CompressedSize;
-                    fileStart.Align(16);
-                    
+                    long afterData = dataStream.TotalOut;
+                    data.CompressedSize = (uint)(afterData - compressedStart);
+                    compressedStart = afterData;
                 }
                 else if (IsCompressed)
                 {
+                    long beforeData = stream.Position;
                     using (dataStream = new ZlibStream(stream, CompressionMode.Compress, CompressionLevel.BestCompression, true))
                     {
-                        long beforeData = stream.Position;
+                        dataStream.FlushMode = FlushType.Sync;
                         fs.CopyTo(dataStream);
                         dataStream.Flush();
-                        stream.Flush();
-                        long afterData = stream.Position;
-                        data.CompressedSize = (uint)(afterData - beforeData);
-                        fileStart += data.CompressedSize;
                     }
+                    long afterData = stream.Position;
+                    data.CompressedSize = (uint)(afterData - beforeData);
+                    fileStart += data.CompressedSize;
                 }
                 else
                 {
-                    fs.CopyTo(dataStream);
+                    fs.CopyTo(stream);
                     data.CompressedSize = 0xFFFFFFFF;
                 }
 

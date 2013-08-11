@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Saints Row Packfile Extractor")]
-[assembly: AssemblyDescription("Extracts Saints Row PC packfiles (vpp_pc and str2_pc files). Supports Saints Row 2, Saints Row: The Third and Saints Row IV.")]
+[assembly: AssemblyDescription("Extracts Saints Row PC packfiles (vpp_pc and str2_pc files). Supports Saints Row IV.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Saints Row Packfile Extractor")]

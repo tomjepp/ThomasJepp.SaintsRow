@@ -9,7 +9,7 @@ namespace ThomasJepp.SaintsRow.RecursiveExtractor
 {
     class Program
     {
-        [CommandLineArguments(Program = "ThomasJepp.SaintsRow.RecursiveExtractor", Title = "Saints Row Recursive Packfile Extractor", Description = "Extracts all Saints Row PC packfiles in the specified folder and any packfiles that they contain. Supports Saints Row 2, Saints Row: The Third and Saints Row IV.")]
+        [CommandLineArguments(Program = "ThomasJepp.SaintsRow.RecursiveExtractor", Title = "Saints Row Recursive Packfile Extractor", Description = "Extracts all Saints Row PC packfiles in the specified folder and any packfiles that they contain. Supports Saints Row IV.")]
         internal class Options
         {
             [CommandLineParameter(Name = "source", ParameterIndex = 1, Required = true, Description = "The folder containing packfiles to extract.")]

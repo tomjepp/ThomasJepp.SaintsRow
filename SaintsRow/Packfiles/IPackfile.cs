@@ -9,7 +9,10 @@ namespace ThomasJepp.SaintsRow.Packfiles
         List<IPackfileEntry> Files { get; }
         IPackfileEntry this[int i] { get; }
 
-        bool IsCompressed { get; }
-        bool IsCondensed { get; }
+        bool IsCompressed { get; set; }
+        bool IsCondensed { get; set; }
+
+        void Save(Stream stream);
+        void AddFile(Stream stream, string filename);
     }
 }

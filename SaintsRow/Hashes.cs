@@ -55,6 +55,16 @@ namespace ThomasJepp.SaintsRow
             return hash;
         }
 
+        public static UInt32 CrcVolition(byte[] input)
+        {
+            UInt32 hash = 0;
+            for (int i = 0; i < input.Length; i++)
+            {
+                hash = CrcVolitionTable[(byte)hash ^ (byte)input[i]] ^ (hash >> 8);
+            }
+            return hash;
+        }
+
         public static UInt32 HashVolition(string input)
         {
             UInt32 hash = 0;

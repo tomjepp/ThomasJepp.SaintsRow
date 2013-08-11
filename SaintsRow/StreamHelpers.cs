@@ -102,6 +102,13 @@ namespace ThomasJepp.SaintsRow
                     sb.Append(c);
             }
         }
+
+        public static void WriteAsciiNullTerminatedString(this Stream stream, string data)
+        {
+            byte[] bytes = Encoding.ASCII.GetBytes(data);
+            stream.Write(bytes, 0, bytes.Length);
+            stream.WriteByte(0);
+        }
         #endregion
 
         #region Alignment helpers

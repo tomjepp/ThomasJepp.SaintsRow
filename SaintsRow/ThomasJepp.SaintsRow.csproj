@@ -55,8 +55,13 @@
     <Compile Include="Packfiles\Version0A\PackfileFileEntryData.cs" />
     <Compile Include="Packfiles\Version0A\PackfileFlags.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Stream2\Stream2ContainerHeader.cs" />
+    <Compile Include="Stream2\ContainerFlags.cs" />
+    <Compile Include="Stream2\Container.cs" />
+    <Compile Include="Stream2\ContainerFileHeader.cs" />
+    <Compile Include="Stream2\Primitive.cs" />
+    <Compile Include="Stream2\PrimitiveData.cs" />
     <Compile Include="Stream2\Stream2File.cs" />
+    <Compile Include="Stream2\WriteTimeSizes.cs" />
     <Compile Include="StreamHelpers.cs" />
     <Compile Include="Strings\StringBucket.cs" />
     <Compile Include="Strings\StringFile.cs" />

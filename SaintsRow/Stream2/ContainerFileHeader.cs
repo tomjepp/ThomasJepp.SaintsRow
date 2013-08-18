@@ -11,7 +11,7 @@ namespace ThomasJepp.SaintsRow.Stream2
      */
     
     [StructLayout(LayoutKind.Explicit, Size=0x08)]
-    public struct Stream2ContainerHeader
+    public struct ContainerFileHeader
     {
         [FieldOffset(0x00)]
         public UInt32 Signature;

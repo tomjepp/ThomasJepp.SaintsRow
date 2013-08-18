@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 
+using ThomasJepp.SaintsRow.Stream2;
+
 namespace ThomasJepp.SaintsRow.Packfiles
 {
     public interface IPackfile : IDisposable
@@ -14,5 +16,6 @@ namespace ThomasJepp.SaintsRow.Packfiles
 
         void Save(Stream stream);
         void AddFile(Stream stream, string filename);
+        void Update(Container container);
     }
 }

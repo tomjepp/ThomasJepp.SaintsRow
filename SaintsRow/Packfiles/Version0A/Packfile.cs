@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using Ionic.Zlib;
 
+using ThomasJepp.SaintsRow.Stream2;
+
 namespace ThomasJepp.SaintsRow.Packfiles.Version0A
 {
     public class Packfile : IPackfile
@@ -218,26 +220,28 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version0A
                 dataStream.Close();
             }
 
-            // Output file info
-            stream.Seek(GetEntryDataOffset(), SeekOrigin.Begin);
+            // Output file names
+            stream.Seek(CalculateEntryNamesOffset(), SeekOrigin.Begin);
+            long startOffset = CalculateEntryNamesOffset();
             foreach (IPackfileEntry entry in Files)
             {
                 PackfileEntry pfE = (PackfileEntry)entry;
-                var data = pfE.Data;
-                stream.WriteStruct(data);
-            }
-            long dirSize = stream.Position - GetEntryDataOffset();
-
-            // Output file names
-            stream.Seek(CalculateEntryNamesOffset(), SeekOrigin.Begin);
-            foreach (IPackfileEntry entry in Files)
-            {
                 stream.Align(2);
+                pfE.Data.FilenameOffset = (UInt32)(stream.Position - startOffset);
                 stream.WriteAsciiNullTerminatedString(entry.Name);
                 stream.Seek(1, SeekOrigin.Current);
                 stream.Align(2);
             }
             long nameSize = stream.Position - CalculateEntryNamesOffset();
+
+            // Output file info
+            stream.Seek(GetEntryDataOffset(), SeekOrigin.Begin);
+            foreach (IPackfileEntry entry in Files)
+            {
+                PackfileEntry pfE = (PackfileEntry)entry;
+                stream.WriteStruct(pfE.Data);
+            }
+            long dirSize = stream.Position - GetEntryDataOffset();
 
             // Output header
             stream.Seek(0, SeekOrigin.Begin);
@@ -263,6 +267,55 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version0A
             stream.WriteUInt32(checksum);
 
             stream.Flush();
+        }
+
+
+        public void Update(Container container)
+        {
+            Dictionary<string, int> fileLookup = new Dictionary<string,int>();
+            for (int i = 0; i < m_Files.Count; i++)
+            {
+                fileLookup.Add(m_Files[i].Name, i);
+            }
+
+            container.PackfileBaseOffset = (uint)CalculateDataStartOffset();
+            container.TotalCompressedPackfileReadSize = (int)FileData.CompressedDataSize;
+            foreach (Primitive primitive in container.Primitives)
+            {
+                IPackfileEntry iEntry = m_Files[fileLookup[primitive.Name]];
+                PackfileEntry entry = (PackfileEntry)iEntry;
+                primitive.Data.CPUSize = entry.Data.Size;
+
+                string gpuFile = "";
+                string extension = Path.GetExtension(primitive.Name);
+                string gpuExtension = "";
+                switch (extension)
+                {
+                    default:
+                        {
+                            if (extension.StartsWith(".c"))
+                                gpuExtension = ".g" + extension.Remove(0, 2);
+                            break;
+                        }
+                }
+                gpuFile = Path.ChangeExtension(primitive.Name, gpuExtension);
+
+                if (fileLookup.ContainsKey(gpuFile))
+                {
+                    IPackfileEntry iGpuEntry = m_Files[fileLookup[gpuFile]];
+                    PackfileEntry gpuEntry = (PackfileEntry)iGpuEntry;
+                    primitive.Data.GPUSize = (uint)gpuEntry.Size;
+                }
+            }
+
+            for (int i = 0; i < container.PrimitiveSizes.Count; i++)
+            {
+                var sizes = container.PrimitiveSizes[i];
+                var primitiveData = container.Primitives[i];
+                sizes.CPUSize = primitiveData.Data.CPUSize;
+                sizes.GPUSize = primitiveData.Data.GPUSize;
+                container.PrimitiveSizes[i] = sizes;
+            }
         }
     }
 }

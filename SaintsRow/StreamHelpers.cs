@@ -60,6 +60,23 @@ namespace ThomasJepp.SaintsRow
             stream.Read(data, 0, 4);
             return BitConverter.ToInt32(data, 0);
         }
+
+        public static void WriteInt8(this Stream stream, SByte value)
+        {
+            stream.WriteByte((byte)value);
+        }
+
+        public static void WriteInt16(this Stream stream, Int16 value)
+        {
+            byte[] data = BitConverter.GetBytes(value);
+            stream.Write(data, 0, 2);
+        }
+
+        public static void WriteInt32(this Stream stream, Int32 value)
+        {
+            byte[] data = BitConverter.GetBytes(value);
+            stream.Write(data, 0, 4);
+        }
         #endregion
 
         #region Unsigned integer helpers
@@ -80,6 +97,17 @@ namespace ThomasJepp.SaintsRow
             byte[] data = new byte[4];
             stream.Read(data, 0, 4);
             return BitConverter.ToUInt32(data, 0);
+        }
+
+        public static void WriteUInt8(this Stream stream, byte value)
+        {
+            stream.WriteByte(value);
+        }
+
+        public static void WriteUInt16(this Stream stream, UInt16 value)
+        {
+            byte[] data = BitConverter.GetBytes(value);
+            stream.Write(data, 0, 2);
         }
 
         public static void WriteUInt32(this Stream stream, UInt32 value)
@@ -115,6 +143,12 @@ namespace ThomasJepp.SaintsRow
             byte[] bytes = new byte[length];
             stream.Read(bytes, 0, length);
             return Encoding.ASCII.GetString(bytes);
+        }
+
+        public static void WriteAsciiString(this Stream stream, string data)
+        {
+            byte[] bytes = Encoding.ASCII.GetBytes(data);
+            stream.Write(bytes, 0, bytes.Length);
         }
         #endregion
 

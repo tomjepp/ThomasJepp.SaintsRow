@@ -19,7 +19,7 @@ namespace ThomasJepp.SaintsRow.BuildStrings
             [CommandLineParameter(Name = "input", ParameterIndex = 1, Required = true, Description = "The file containing the language strings to use.")]
             public string Input { get; set; }
 
-            [CommandLineParameter(Name = "output", ParameterIndex = 2, Required = false, Default = "output", Description = "The output file to create. If not specified, the input filename will be used with the extension changed to \".le_strings\".")]
+            [CommandLineParameter(Name = "output", ParameterIndex = 2, Required = false, Default = null, Description = "The output file to create. If not specified, the input filename will be used with the extension changed to \".le_strings\".")]
             public string Output { get; set; }
         }
 

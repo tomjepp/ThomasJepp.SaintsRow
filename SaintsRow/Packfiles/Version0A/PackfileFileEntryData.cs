@@ -14,6 +14,9 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version0A
     [StructLayout(LayoutKind.Explicit, Size = 0x18)]
     public struct PackfileEntryFileData
     {
+        [FieldOffset(0x00)]
+        public UInt32 FilenameOffset;
+
         [FieldOffset(0x08)]
         public UInt32 Start;
 

@@ -8,7 +8,7 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version0A
     public class PackfileEntry : IPackfileEntry
     {
         private Packfile Packfile;
-        private PackfileEntryFileData m_Data;
+        public PackfileEntryFileData Data;
         private string Filename;
 
         public string Name
@@ -20,13 +20,6 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version0A
         {
             get { return (int)Data.Size; }
         }
-
-        public PackfileEntryFileData Data
-        {
-            get { return m_Data; }
-            set { m_Data = value; }
-        }
-
 
         public Stream GetStream()
         {
@@ -57,7 +50,7 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version0A
         public PackfileEntry(Packfile packfile, PackfileEntryFileData data, string filename)
         {
             Packfile = packfile;
-            m_Data = data;
+            Data = data;
             Filename = filename;
         }
     }

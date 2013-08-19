@@ -47,7 +47,7 @@ namespace ThomasJepp.SaintsRow.Stream2
                         {
                             Stream2File file = new Stream2File(stream);
 
-                            using (StreamWriter sw = new StreamWriter("dump.txt"))
+                            using (StreamWriter sw = new StreamWriter(options.Source + ".dump.txt"))
                             {
                                 foreach (var container in file.Containers)
                                 {

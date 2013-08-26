@@ -112,6 +112,56 @@ namespace ThomasJepp.SaintsRow.BuildPackfileGUI
             }
         }
 
+        internal class PackageOptions
+        {
+            public bool Compress { get; set; }
+            public bool Condense { get; set; }
+
+            public PackageOptions(bool compress, bool condense)
+            {
+                Compress = compress;
+                Condense = condense;
+            }
+        }
+
+        Dictionary<string, PackageOptions> OptionsList = new Dictionary<string, PackageOptions>
+        {
+            { "characters.vpp_pc", new PackageOptions(false, false) },
+            { "customize_item.vpp_pc", new PackageOptions(false, false) },
+            { "customize_player.vpp_pc", new PackageOptions(false, false) },
+            { "cutscene_sounds.vpp_pc", new PackageOptions(false, false) },
+            { "cutscenes.vpp_pc", new PackageOptions(false, false) },
+            { "da_tables.vpp_pc", new PackageOptions(true, false) },
+            { "decals.vpp_pc", new PackageOptions(false, false) },
+            { "effects.vpp_pc", new PackageOptions(false, false) },
+            { "high_mips.vpp_pc", new PackageOptions(false, false) },
+            { "interface.vpp_pc", new PackageOptions(false, false) },
+            { "interface_startup.vpp_pc", new PackageOptions(false, false) },
+            { "items.vpp_pc", new PackageOptions(false, false) },
+            { "misc.vpp_pc", new PackageOptions(true, false) },
+            { "misc_tables.vpp_pc", new PackageOptions(true, false) },
+            { "player_morph.vpp_pc", new PackageOptions(false, false) },
+            { "player_taunts.vpp_pc", new PackageOptions(false, false) },
+            { "preload_anim.vpp_pc", new PackageOptions(false, true) },
+            { "preload_effects.vpp_pc", new PackageOptions(false, false) },
+            { "preload_items.vpp_pc", new PackageOptions(false, false) },
+            { "preload_rigs.vpp_pc", new PackageOptions(false, true) },
+            { "shaders.vpp_pc", new PackageOptions(true, false) },
+            { "skybox.vpp_pc", new PackageOptions(false, false) },
+            { "sound_turbo.vpp_pc", new PackageOptions(true, false) },
+            { "soundboot.vpp_pc", new PackageOptions(true, true) },
+            { "sounds.vpp_pc", new PackageOptions(false, false) },
+            { "sounds_common.vpp_pc", new PackageOptions(false, false) },
+            { "sr3_city_0.vpp_pc", new PackageOptions(false, false) },
+            { "sr3_city_1.vpp_pc", new PackageOptions(false, false) },
+            { "sr3_city_missions.vpp_pc", new PackageOptions(false, false) },
+            { "startup.vpp_pc", new PackageOptions(false, false) },
+            { "superpowers.vpp_pc", new PackageOptions(false, false) },
+            { "vehicles.vpp_pc", new PackageOptions(false, false) },
+            { "vehicles_preload.vpp_pc", new PackageOptions(true, false) },
+            { "voices.vpp_pc", new PackageOptions(false, false) },
+        };
+
         private void BeginBuild(string source, string destination, string asm)
         {
             var options = new BuildOptions(source, destination, asm);
@@ -145,6 +195,17 @@ namespace ThomasJepp.SaintsRow.BuildPackfileGUI
                     {
                         asm = new Stream2File(asmStream);
                     }
+                }
+            }
+            else
+            {
+                string filename = Path.GetFileName(options.Destination);
+                if (OptionsList.ContainsKey(filename))
+                {
+                    var vppOptions = OptionsList[filename];
+
+                    packfile.IsCondensed = vppOptions.Condense;
+                    packfile.IsCompressed = vppOptions.Compress;
                 }
             }
 

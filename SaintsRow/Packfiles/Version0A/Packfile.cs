@@ -169,7 +169,7 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version0A
                 var data = pfE.Data;
                 data.Start = (uint)fileStart;
                 data.Size = (uint)fs.Length;
-                data.Alignment = (IsCompressed && IsCondensed) ? (ushort)16 : (ushort)1;
+                data.Alignment = (IsCondensed) ? (ushort)16 : (ushort)1;
                 
                 if (this.IsCompressed)
                     data.Flags = PackfileEntryFlags.Compressed;
@@ -205,6 +205,7 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version0A
                 {
                     fs.CopyTo(stream);
                     data.CompressedSize = 0xFFFFFFFF;
+                    fileStart += data.Size;
                 }
 
                 uncompressedSize += data.Size;
@@ -282,6 +283,11 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version0A
             container.TotalCompressedPackfileReadSize = (int)FileData.CompressedDataSize;
             foreach (Primitive primitive in container.Primitives)
             {
+                if (!fileLookup.ContainsKey(primitive.Name))
+                {
+                    continue;
+                }
+
                 IPackfileEntry iEntry = m_Files[fileLookup[primitive.Name]];
                 PackfileEntry entry = (PackfileEntry)iEntry;
                 primitive.Data.CPUSize = entry.Data.Size;

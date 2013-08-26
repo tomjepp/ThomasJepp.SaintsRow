@@ -82,14 +82,14 @@ namespace ThomasJepp.SaintsRow.BuildPackfile
                     break;
             }
 
-            if (options.Condensed == "true")
+            if (options.Condensed.ToLowerInvariant() == "true")
                 packfile.IsCondensed = true;
-            else if (options.Condensed == "false")
+            else if (options.Condensed.ToLowerInvariant() == "false")
                 packfile.IsCondensed = false;
 
-            if (options.Compressed == "true")
+            if (options.Compressed.ToLowerInvariant() == "true")
                 packfile.IsCompressed = true;
-            else if (options.Compressed == "false")
+            else if (options.Compressed.ToLowerInvariant() == "false")
                 packfile.IsCompressed = false;
 
             Container thisContainer = null;
@@ -115,7 +115,10 @@ namespace ThomasJepp.SaintsRow.BuildPackfile
                 {
                     string primitiveFile = Path.Combine(options.Source, primitive.Name);
                     if (!File.Exists(primitiveFile))
-                        throw new Exception(String.Format("Unable to find primitive {0} for container {1}", containerName, primitive.Name));
+                    {
+                        Console.WriteLine("Unable to find primitive {0} for container {1}", containerName, primitive.Name);
+                        continue;
+                    }
 
                     string filename = Path.GetFileName(primitiveFile);
 

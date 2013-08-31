@@ -33,9 +33,7 @@ namespace ThomasJepp.SaintsRow.Stream2Update
                 Console.WriteLine();
                 Console.WriteLine(exception.ArgumentHelp.GetHelpText(Console.BufferWidth));
 
-#if DEBUG
                 Console.ReadLine();
-#endif
                 return;
             }
 
@@ -44,11 +42,11 @@ namespace ThomasJepp.SaintsRow.Stream2Update
 
             if (options.Source == null)
             {
-                throw new Exception("Couldn't find the Saints Row IV folder?");
+                Console.WriteLine("Couldn't find the Saints Row IV folder?");
 
-#if DEBUG
+                Console.WriteLine();
+                Console.WriteLine("Press enter to exit.");
                 Console.ReadLine();
-#endif
                 return;
             }
 
@@ -63,11 +61,11 @@ namespace ThomasJepp.SaintsRow.Stream2Update
 
             if (str2Files.Count == 0)
             {
-                Console.WriteLine("No str2_pc files found.");
+                Console.WriteLine("No str2_pc files found - no update needed.");
 
-#if DEBUG
+                Console.WriteLine();
+                Console.WriteLine("Press enter to exit.");
                 Console.ReadLine();
-#endif
                 return;
             }
 
@@ -141,9 +139,9 @@ namespace ThomasJepp.SaintsRow.Stream2Update
 
             Console.WriteLine("Done.");
 
-#if DEBUG
+            Console.WriteLine();
+            Console.WriteLine("Press enter to exit.");
             Console.ReadLine();
-#endif
         }
     }
 }

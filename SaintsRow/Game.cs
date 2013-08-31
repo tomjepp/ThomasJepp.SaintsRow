@@ -5,10 +5,11 @@ using System.Text;
 
 namespace ThomasJepp.SaintsRow
 {
+    // Steam IDs
     public enum Game
     {
-        SaintsRow2 = 2,
-        SaintsRowTheThird = 3,
-        SaintsRowIV = 4
+        SaintsRow2 = 9480,
+        SaintsRowTheThird = 55230,
+        SaintsRowIV = 206420
     }
 }

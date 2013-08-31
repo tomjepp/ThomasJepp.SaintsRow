@@ -44,7 +44,7 @@ namespace ThomasJepp.SaintsRow.Stream2Update
 
             if (options.Source == null)
             {
-                Console.WriteLine("Couldn't find the Saints Row IV folder?");
+                throw new Exception("Couldn't find the Saints Row IV folder?");
 
 #if DEBUG
                 Console.ReadLine();

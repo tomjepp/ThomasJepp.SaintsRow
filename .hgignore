@@ -4,3 +4,5 @@ syntax: glob
 */obj/*
 *.user
 bin/*
+*.sdf
+*.opensdf

@@ -24,7 +24,7 @@ namespace ThomasJepp.SaintsRow
             foreach (var key in keys)
             {
                 var path = GetRegistryEntry(string.Format(key, id), "InstallLocation");
-                if (path != null)
+                if (path != null && Directory.Exists(path))
                 {
                     return path;
                 }

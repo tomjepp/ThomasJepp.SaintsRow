@@ -21,10 +21,10 @@ namespace ThomasJepp.SaintsRow.BuildPackfile
             [CommandLineParameter(Name = "output", ParameterIndex = 3, Required = true, Description = "The file to create.")]
             public string Output { get; set; }
 
-            [CommandLineParameter(Command = "condensed", Description = "Should the output data be condensed? This is mostly used for str2_pc files. Saints Row 2 files cannot be condensed. If not specified, \"\auto\" is the default.", ValueExample="true|false|auto")]
+            [CommandLineParameter(Command = "condensed", Description = "Should the output data be condensed? This is mostly used for str2_pc files. Saints Row 2 files cannot be condensed. If not specified, \"\auto\" is the default.", ValueExample = "true|false|auto", Default = "auto")]
             public string Condensed { get; set; }
 
-            [CommandLineParameter(Command = "compressed", Description = "Should the output data be compressed? This is usually enabled for str2_pc files and for vpp_pc files that contain highly compressible data such as XTBL files. If not specified, \"\auto\" is the default.", ValueExample = "true|false|auto")]
+            [CommandLineParameter(Command = "compressed", Description = "Should the output data be compressed? This is usually enabled for str2_pc files and for vpp_pc files that contain highly compressible data such as XTBL files. If not specified, \"\auto\" is the default.", ValueExample = "true|false|auto",Default="auto")]
             public string Compressed { get; set; }
 
             [CommandLineParameter(Command = "asm", Description = "The asm_pc file to update with new data from this packfile. This should only be used in Saints Row IV or Saints Row: The Third mode, and will automatically update the specified ASM file. If you are building a str2_pc file, this should be specified. It has no effect for vpp_pc files.", ValueExample = "<asm_pc file>")]

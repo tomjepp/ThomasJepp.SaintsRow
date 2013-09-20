@@ -31,6 +31,8 @@ namespace RepackTest
             { "cutscenes.vpp_pc", new PackageOptions(false, false) },
             { "da_tables.vpp_pc", new PackageOptions(true, false) },
             { "decals.vpp_pc", new PackageOptions(false, false) },
+            { "dlc3.vpp_pc", new PackageOptions(false, false) },
+            { "dlc4.vpp_pc", new PackageOptions(false, false) },
             { "effects.vpp_pc", new PackageOptions(false, false) },
             { "high_mips.vpp_pc", new PackageOptions(false, false) },
             { "interface.vpp_pc", new PackageOptions(false, false) },
@@ -38,6 +40,8 @@ namespace RepackTest
             { "items.vpp_pc", new PackageOptions(false, false) },
             { "misc.vpp_pc", new PackageOptions(true, false) },
             { "misc_tables.vpp_pc", new PackageOptions(true, false) },
+            { "patch_compressed.vpp_pc", new PackageOptions(true, false) },
+            { "patch_uncompressed.vpp_pc", new PackageOptions(false, false) },
             { "player_morph.vpp_pc", new PackageOptions(false, false) },
             { "player_taunts.vpp_pc", new PackageOptions(false, false) },
             { "preload_anim.vpp_pc", new PackageOptions(false, true) },
@@ -121,7 +125,10 @@ namespace RepackTest
 
                 var options = OptionsList[Path.GetFileName(packfileFolder)];
 
-                Process packProcess = Process.Start(@"D:\Development\SaintsRow\bin\Release\ThomasJepp.SaintsRow.BuildPackfile.exe", String.Format("sriv \"{0}\" \"{1}\" /condensed:{2} /compressed:{3}", pfTemp, Path.Combine(dst, Path.GetFileName(packfileFolder)), options.Condense, options.Compress));
+                ProcessStartInfo packpsi = new ProcessStartInfo(@"D:\Development\SaintsRow\bin\Release\ThomasJepp.SaintsRow.BuildPackfile.exe", String.Format("sriv \"{0}\" \"{1}\" /condensed:{2} /compressed:{3}", pfTemp, Path.Combine(dst, Path.GetFileName(packfileFolder)), options.Condense, options.Compress));
+                packpsi.CreateNoWindow = true;
+                packpsi.WindowStyle = ProcessWindowStyle.Hidden;
+                Process packProcess = Process.Start(packpsi);
             }
 
             Console.WriteLine("Done.");

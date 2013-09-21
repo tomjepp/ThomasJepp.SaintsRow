@@ -53,7 +53,7 @@ namespace ThomasJepp.SaintsRow.RecursiveExtractor
             {
                 if (Path.GetExtension(file) == ".vpp_pc")
                 {
-                    var packfile = Packfile.FromStream(File.OpenRead(file));
+                    var packfile = Packfile.FromStream(File.OpenRead(file), false);
                     totalFiles += packfile.Files.Count;
                     packfiles.Add(Path.GetFileName(file), packfile);
                 }
@@ -76,7 +76,7 @@ namespace ThomasJepp.SaintsRow.RecursiveExtractor
                         Console.WriteLine("[{0}/{1}] Extracting {2}: packfile {3} to {4}:", currentFile, totalFiles, packfilePair.Key, file.Name, strOutputFolder);
                         using (Stream strStream = file.GetStream())
                         {
-                            using (var strPackfile = Packfile.FromStream(strStream))
+                            using (var strPackfile = Packfile.FromStream(strStream, true))
                             {
                                 int strCurrentFile = 0;
 

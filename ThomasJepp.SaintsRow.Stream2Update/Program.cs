@@ -82,7 +82,7 @@ namespace ThomasJepp.SaintsRow.Stream2Update
 
                 using (Stream stream = File.OpenRead(packfilePath))
                 {
-                    using (IPackfile packfile = Packfile.FromStream(stream))
+                    using (IPackfile packfile = Packfile.FromStream(stream, false))
                     {
                         foreach (var packedFile in packfile.Files)
                         {
@@ -106,7 +106,7 @@ namespace ThomasJepp.SaintsRow.Stream2Update
                                         Console.Write(" - Updating {0} - {1}...", packedFile.Name, containerName);
                                         using (Stream str2Stream = File.OpenRead(Path.Combine(options.Source, containerName)))
                                         {
-                                            using (IPackfile str2 = Packfile.FromStream(str2Stream))
+                                            using (IPackfile str2 = Packfile.FromStream(str2Stream, true))
                                             {
                                                 str2.Update(container);
                                             }

@@ -16,15 +16,18 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version0A
 
         public long DataOffset = 0;
         public Stream DataStream;
+        public bool IsStr2;
 
-        public Packfile()
+        public Packfile(bool isStr2)
         {
+            IsStr2 = isStr2;
             m_Files = new List<IPackfileEntry>();
             m_Streams = new Dictionary<string, Stream>();
         }
 
-        public Packfile(Stream stream)
+        public Packfile(Stream stream, bool isStr2)
         {
+            IsStr2 = isStr2;
             stream.Seek(0, SeekOrigin.Begin);
             FileData = stream.ReadStruct<PackfileFileData>();
 
@@ -35,13 +38,17 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version0A
             for (int i = 0; i < FileData.NumFiles; i++)
             {
                 PackfileEntryFileData data = stream.ReadStruct<PackfileEntryFileData>();
-                if (IsCondensed && IsCompressed)
-                    data.Flags = 0;
 
-                if (IsCondensed)
+                if (IsCondensed && IsCompressed)
                 {
+                    data.Flags = 0;
                     data.Start = runningPosition;
                     runningPosition += data.Size;
+                }
+                else if (IsCondensed)
+                {
+                    data.Start = runningPosition;
+                    runningPosition += data.Size.Align(16);
                 }
 
                 entryFileData.Add(data);
@@ -161,9 +168,12 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version0A
 
             long compressedStart = 0;
 
-            foreach (IPackfileEntry entry in Files)
+            for (int i = 0; i < Files.Count; i++)
             {
+                IPackfileEntry entry = Files[i];
                 Stream fs = m_Streams[entry.Name];
+
+                bool isLast = (i == (Files.Count - 1));
 
                 PackfileEntry pfE = (PackfileEntry)entry;
                 var data = pfE.Data;
@@ -174,12 +184,6 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version0A
                 if (this.IsCompressed)
                     data.Flags = PackfileEntryFlags.Compressed;
 
-                if (IsCondensed)
-                {
-                    fileStart += data.Size;
-                    fileStart = fileStart.Align(16);
-                }
-
                 if (IsCompressed && IsCondensed)
                 {
                     fs.CopyTo(dataStream);
@@ -187,6 +191,38 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version0A
                     long afterData = dataStream.TotalOut;
                     data.CompressedSize = (uint)(afterData - compressedStart);
                     compressedStart = afterData;
+
+                    if (IsStr2)
+                    {
+                        fileStart += data.Size.Align(16);
+                        uncompressedSize += data.Size;
+                        compressedSize += data.CompressedSize;
+                    }
+                    else
+                    {
+                        fileStart += data.Size.Align(16);
+                        uint toSkip = data.Size.Align(16) - data.Size;
+                        uncompressedSize += data.Size.Align(16);
+                        stream.Seek(toSkip, SeekOrigin.Current);
+                        compressedSize += data.CompressedSize;
+                    }
+                }
+                else if (IsCondensed)
+                {
+                    fs.CopyTo(stream);
+                    data.CompressedSize = 0xFFFFFFFF;
+
+                    fileStart += data.Size.Align(16);
+
+                    if (isLast)
+                        uncompressedSize += data.Size;
+                    else
+                    {
+                        uint toSkip = data.Size.Align(16) - data.Size;
+                        uncompressedSize += data.Size.Align(16);
+                        stream.Seek(toSkip, SeekOrigin.Current);
+                    }
+
                 }
                 else if (IsCompressed)
                 {
@@ -200,16 +236,16 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version0A
                     long afterData = stream.Position;
                     data.CompressedSize = (uint)(afterData - beforeData);
                     fileStart += data.CompressedSize;
+                    uncompressedSize += data.Size;
+                    compressedSize += data.CompressedSize;
                 }
                 else
                 {
                     fs.CopyTo(stream);
                     data.CompressedSize = 0xFFFFFFFF;
                     fileStart += data.Size;
+                    uncompressedSize += data.Size;
                 }
-
-                uncompressedSize += data.Size;
-                compressedSize += data.CompressedSize;
 
                 fs.Close();
 
@@ -254,7 +290,10 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version0A
             FileData.DirSize = (uint)dirSize;
             FileData.FilenameSize = (uint)nameSize;
             FileData.DataSize = (uint)uncompressedSize;
-            FileData.CompressedDataSize = (uint)compressedSize;
+            if (IsCompressed)
+                FileData.CompressedDataSize = (uint)compressedSize;
+            else
+                FileData.CompressedDataSize = 0xFFFFFFFF;
             stream.WriteStruct(FileData);
 
             uint checksum = 0;

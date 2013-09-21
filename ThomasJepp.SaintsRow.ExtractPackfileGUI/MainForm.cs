@@ -132,7 +132,7 @@ namespace ThomasJepp.SaintsRow.ExtractPackfileGUI
 
             using (Stream stream = File.OpenRead(options.Source))
             {
-                var packfile = Packfile.FromStream(stream);
+                var packfile = Packfile.FromStream(stream, Path.GetExtension(options.Source) == ".str2_pc");
 
                 string filename = Path.GetFileName(options.Source);
                 string outputDir = Path.Combine(options.Destination, filename);

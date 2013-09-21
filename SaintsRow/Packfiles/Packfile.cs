@@ -6,7 +6,7 @@ namespace ThomasJepp.SaintsRow.Packfiles
 {
     public static class Packfile
     {
-        public static IPackfile FromStream(Stream stream)
+        public static IPackfile FromStream(Stream stream, bool isStr2)
         {
             stream.Seek(0, SeekOrigin.Begin);
             uint descriptor = stream.ReadUInt32();
@@ -19,7 +19,7 @@ namespace ThomasJepp.SaintsRow.Packfiles
             switch (version)
             {
                 case 0x0A: // Saints Row IV
-                    return new Packfiles.Version0A.Packfile(stream);
+                    return new Packfiles.Version0A.Packfile(stream, isStr2);
 
                 default:
                     throw new Exception(String.Format("Unsupported packfile version: {0:X4}", version));

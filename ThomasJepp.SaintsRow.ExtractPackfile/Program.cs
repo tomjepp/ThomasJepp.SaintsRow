@@ -42,7 +42,7 @@ namespace ThomasJepp.SaintsRow.ExtractPackfile
 
             using (Stream stream = File.OpenRead(options.Source))
             {
-                var packfile = Packfile.FromStream(stream);
+                var packfile = Packfile.FromStream(stream, Path.GetExtension(options.Source) == ".str2_pc");
 
                 string folderName = (options.Output != null) ? options.Output : Path.GetFileName(args[0]);
 

@@ -182,8 +182,7 @@ namespace ThomasJepp.SaintsRow.BuildPackfileGUI
             BuildOptions options = (BuildOptions)o;
 
             SetProgressBarSettings(0, 100, 1, ProgressBarStyle.Marquee);
-
-            IPackfile packfile = new Packfiles.Version0A.Packfile();
+            IPackfile packfile = new Packfiles.Version0A.Packfile(Path.GetExtension(options.Destination) == ".str2_pc");
             Stream2File asm = null;
             Stream2.Container thisContainer = null;
 

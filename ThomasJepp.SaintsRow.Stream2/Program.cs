@@ -99,7 +99,7 @@ namespace ThomasJepp.SaintsRow.Stream2
                                     Console.Write("Found {0}, updating... ", str2File);
                                     using (Stream str2Stream = File.OpenRead(filename))
                                     {
-                                        IPackfile packfile = Packfile.FromStream(str2Stream);
+                                        IPackfile packfile = Packfile.FromStream(str2Stream, true);
                                         packfile.Update(container);
                                     }
                                     Console.WriteLine("done.");

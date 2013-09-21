@@ -64,7 +64,7 @@ namespace ThomasJepp.SaintsRow.BuildPackfile
                     throw new NotImplementedException();
                     break;
                 case "sriv":
-                    packfile = new Packfiles.Version0A.Packfile();
+                    packfile = new Packfiles.Version0A.Packfile(Path.GetExtension(options.Output) == ".str2_pc");
                     if (Path.GetExtension(options.Output) == ".str2_pc")
                     {
                         packfile.IsCondensed = true;

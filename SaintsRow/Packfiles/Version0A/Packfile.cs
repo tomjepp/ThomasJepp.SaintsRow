@@ -195,15 +195,23 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version0A
                     if (IsStr2)
                     {
                         fileStart += data.Size.Align(16);
-                        uncompressedSize += data.Size;
+                        uncompressedSize += data.Size.Align(16);
                         compressedSize += data.CompressedSize;
                     }
                     else
                     {
                         fileStart += data.Size.Align(16);
-                        uint toSkip = data.Size.Align(16) - data.Size;
-                        uncompressedSize += data.Size.Align(16);
-                        stream.Seek(toSkip, SeekOrigin.Current);
+                        if (!isLast)
+                        {
+                            uncompressedSize += data.Size.Align(16);
+                            uint toSkip = data.Size.Align(16) - data.Size;
+                            for (int j = 0; j < toSkip; j++)
+                                dataStream.WriteByte(0);
+                        }
+                        else
+                        {
+                            uncompressedSize += data.Size;
+                        }
                         compressedSize += data.CompressedSize;
                     }
                 }

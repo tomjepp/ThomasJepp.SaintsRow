@@ -121,7 +121,7 @@ namespace RepackTest
                     }
                 }
 
-                Console.WriteLine("Building {0}...", Path.GetFileName(packfileFolder));
+                Console.Write("Building {0}...", Path.GetFileName(packfileFolder));
 
                 var options = OptionsList[Path.GetFileName(packfileFolder)];
 
@@ -129,6 +129,9 @@ namespace RepackTest
                 packpsi.CreateNoWindow = true;
                 packpsi.WindowStyle = ProcessWindowStyle.Hidden;
                 Process packProcess = Process.Start(packpsi);
+                packProcess.WaitForExit();
+
+                Console.WriteLine(" OK");
             }
 
             Console.WriteLine("Done.");

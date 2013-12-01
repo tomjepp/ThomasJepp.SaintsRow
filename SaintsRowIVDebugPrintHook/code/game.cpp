@@ -56,9 +56,9 @@ bool HookGame(void)
 
 	unsigned int debugPrintAddress = (unsigned int)&DebugPrint;
 
-	PatchCode(0x00F500D3, &debugPrintAddress, 4);
-	lua_gettop = (LUA_GETTOP)0x00FDB870;
-	lua_tolstring = (LUA_TOLSTRING)0x00FDBC60;
+	PatchCode(0x00f56773, &debugPrintAddress, 4);
+	lua_gettop = (LUA_GETTOP)0x00FE2070;
+	lua_tolstring = (LUA_TOLSTRING)0x00FE2460;
 
 	printf("hooked.\n");
 

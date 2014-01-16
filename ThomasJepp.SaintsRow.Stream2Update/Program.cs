@@ -38,7 +38,10 @@ namespace ThomasJepp.SaintsRow.Stream2Update
             }
 
             if (options.Source == null)
+            {
                 options.Source = ThomasJepp.SaintsRow.Utility.GetGamePath(Game.SaintsRowIV);
+            }
+
 
             if (options.Source == null)
             {
@@ -50,7 +53,11 @@ namespace ThomasJepp.SaintsRow.Stream2Update
                 return;
             }
 
-            string[] str2Paths = Directory.GetFiles(options.Source, "*.str2_pc");
+            string str2Dir = options.Source;
+            if (Directory.Exists(Path.Combine(options.Source, "mods")))
+                str2Dir = Path.Combine(options.Source, "mods");
+
+            string[] str2Paths = Directory.GetFiles(str2Dir, "*.str2_pc");
 
             List<string> str2Files = new List<string>();
 
@@ -104,7 +111,7 @@ namespace ThomasJepp.SaintsRow.Stream2Update
                                         }
 
                                         Console.Write(" - Updating {0} - {1}...", packedFile.Name, containerName);
-                                        using (Stream str2Stream = File.OpenRead(Path.Combine(options.Source, containerName)))
+                                        using (Stream str2Stream = File.OpenRead(Path.Combine(str2Dir, containerName)))
                                         {
                                             using (IPackfile str2 = Packfile.FromStream(str2Stream, true))
                                             {
@@ -128,7 +135,7 @@ namespace ThomasJepp.SaintsRow.Stream2Update
             {
                 count++;
                 Console.Write("[{0}/{1}] Saving {2}...", count, asmsToSave.Count, asmPair.Key);
-                string outPath = Path.Combine(options.Source, asmPair.Key);
+                string outPath = Path.Combine(str2Dir, asmPair.Key);
 
                 using (Stream outStream = File.OpenWrite(outPath))
                 {

@@ -61,6 +61,13 @@
     <Compile Include="Packfiles\Version0A\PackfileFileEntryData.cs" />
     <Compile Include="Packfiles\Version0A\PackfileFlags.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Saves\SaintsRowIVMod\SaveFile.cs" />
+    <Compile Include="Saves\SaintsRowIVMod\SaveGameMainHeader.cs" />
+    <Compile Include="Saves\SaintsRowIVMod\SaveGameSectionHeader.cs" />
+    <Compile Include="Saves\SaintsRowIVMod\Section.cs" />
+    <Compile Include="Saves\SaintsRowIVMod\SectionId.cs" />
+    <Compile Include="Saves\SaintsRowIVMod\Sections\PlayerSection.cs" />
+    <Compile Include="Saves\SaintsRowIVMod\Sections\Player\SavedPlayerData.cs" />
     <Compile Include="Stream2\ContainerFlags.cs" />
     <Compile Include="Stream2\Container.cs" />
     <Compile Include="Stream2\ContainerFileHeader.cs" />

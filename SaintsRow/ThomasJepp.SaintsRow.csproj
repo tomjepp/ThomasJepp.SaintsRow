@@ -43,12 +43,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ByteHelpers.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Hashes.cs" />
     <Compile Include="NumberHelpers.cs" />
     <Compile Include="Packfiles\IPackfile.cs" />
     <Compile Include="Packfiles\IPackfileEntry.cs" />
     <Compile Include="Packfiles\Packfile.cs" />
+    <Compile Include="Packfiles\Packfile04\Packfile.cs" />
+    <Compile Include="Packfiles\Packfile04\PackfileEntry.cs" />
+    <Compile Include="Packfiles\Packfile04\PackfileFileData.cs" />
+    <Compile Include="Packfiles\Packfile04\PackfileFileEntryData.cs" />
+    <Compile Include="Packfiles\Packfile04\PackfileFlags.cs" />
     <Compile Include="Packfiles\Version0A\Packfile.cs" />
     <Compile Include="Packfiles\Version0A\PackfileEntry.cs" />
     <Compile Include="Packfiles\Version0A\PackfileFileData.cs" />

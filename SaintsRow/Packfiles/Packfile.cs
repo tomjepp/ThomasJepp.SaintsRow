@@ -18,7 +18,13 @@ namespace ThomasJepp.SaintsRow.Packfiles
 
             switch (version)
             {
-                case 0x0A: // Saints Row IV
+                case 0x04: // Saints Row 2
+                    return new Packfiles.Version04.Packfile(stream);
+
+                case 0x06: // Saints Row: The Third
+                    throw new Exception("Saints Row: The Third packfiles are not supported.");
+
+                case 0x0A: // Saints Row IV & Saints Row: Gat out of Hell
                     return new Packfiles.Version0A.Packfile(stream, isStr2);
 
                 default:

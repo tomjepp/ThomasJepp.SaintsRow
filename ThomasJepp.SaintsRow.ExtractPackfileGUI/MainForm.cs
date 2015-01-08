@@ -136,7 +136,11 @@ namespace ThomasJepp.SaintsRow.ExtractPackfileGUI
 
                 string filename = Path.GetFileName(options.Source);
                 string outputDir = Path.Combine(options.Destination, filename);
-                Directory.CreateDirectory(outputDir);
+                if (File.Exists(outputDir))
+                {
+                    outputDir = Path.Combine(options.Destination, "extracted-" + filename);
+                }
+                Directory.CreateDirectory(outputDir);                
 
                 SetProgressBarSettings(0, packfile.Files.Count, 1, ProgressBarStyle.Continuous);
                 SetText("Extracting {0}...", filename);

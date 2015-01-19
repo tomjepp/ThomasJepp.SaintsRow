@@ -24,7 +24,7 @@ namespace ThomasJepp.SaintsRow.Saves.SaintsRowIVMod
                 long sectionStart = s.Position;
                 Section section = new Section(s);
                 if (section.Size == 0 && section.Version == 0)
-                    return;
+                    break;
                 
                 Console.WriteLine("Got {0} ({4:X2}) at {3:X4}. Version {1:X2}, {2:X4} bytes.", section.SectionId, section.Version, section.Size, sectionStart, (uint)section.SectionId);
                 Sections.Add(section.SectionId, section);

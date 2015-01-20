@@ -49,6 +49,9 @@ namespace ThomasJepp.SaintsRow
                     case Game.SaintsRowIV:
                         gamePath = Path.Combine(steamPath, "steamapps", "common", "Saints Row IV");
                         break;
+                    case Game.SaintsRowGatOutOfHell:
+                        gamePath = Path.Combine(steamPath, "steamapps", "common", "Project Gat");
+                        break;
                 }
                 
 

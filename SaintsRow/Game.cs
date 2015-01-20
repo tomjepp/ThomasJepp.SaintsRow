@@ -10,6 +10,7 @@ namespace ThomasJepp.SaintsRow
     {
         SaintsRow2 = 9480,
         SaintsRowTheThird = 55230,
-        SaintsRowIV = 206420
+        SaintsRowIV = 206420,
+        SaintsRowGatOutOfHell = 301910
     }
 }

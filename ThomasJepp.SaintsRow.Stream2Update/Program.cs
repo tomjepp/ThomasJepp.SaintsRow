@@ -39,7 +39,61 @@ namespace ThomasJepp.SaintsRow.Stream2Update
 
             if (options.Source == null)
             {
-                options.Source = ThomasJepp.SaintsRow.Utility.GetGamePath(Game.SaintsRowIV);
+                string sriv = ThomasJepp.SaintsRow.Utility.GetGamePath(Game.SaintsRowIV);
+                string srgooh = ThomasJepp.SaintsRow.Utility.GetGamePath(Game.SaintsRowGatOutOfHell);
+
+                int gameCount = 0, srivNum = 0, srgoohNum = 0;
+                Console.WriteLine("Detected the following games:");
+                if (sriv != null)
+                {
+                    gameCount++;
+                    srivNum = gameCount;
+                    Console.WriteLine("{0}. Saints Row IV: {1}", gameCount, sriv);
+                }
+                if (srgooh != null)
+                {
+                    gameCount++;
+                    srgoohNum = gameCount;
+                    Console.WriteLine("{0}. Saints Row Gat Out Of Hell: {1}", gameCount, srgooh);
+                }
+
+                Console.WriteLine();
+                while (true)
+                {
+                    Console.Write("Which game do you want to update? (enter the number) ");
+                    ConsoleKeyInfo input = Console.ReadKey();
+                    Console.WriteLine();
+                    Console.WriteLine();
+                    if (input.Key == ConsoleKey.D1 || input.Key == ConsoleKey.NumPad1)
+                    {
+                        if (srivNum == 1)
+                        {
+                            options.Source = sriv;
+                            Console.WriteLine("Updating Saints Row IV files.");
+                        }
+                        else if (srgoohNum == 1)
+                        {
+                            options.Source = srgooh;
+                            Console.WriteLine("Updating Saints Row: Gat Out Of Hell files.");
+                        }
+                    }
+                    else if (input.Key == ConsoleKey.D2 || input.Key == ConsoleKey.NumPad2)
+                    {
+                        if (srivNum == 2)
+                        {
+                            options.Source = sriv;
+                            Console.WriteLine("Updating Saints Row IV files.");
+                        }
+                        else if (srgoohNum == 2)
+                        {
+                            options.Source = srgooh;
+                            Console.WriteLine("Updating Saints Row: Gat Out Of Hell files.");
+                        }
+                    }
+
+                    if (options.Source != null)
+                        break;
+                }
             }
 
 

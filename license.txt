@@ -11,7 +11,7 @@ You may redistribute the source code or compiled binaries as long as you meet th
 3. You must provide a link back to the original download pages:
    https://www.saintsrowmods.com/forum/threads/minimauls-saints-row-iv-and-gat-out-of-hell-tools.3188/
    or
-   https://github.com/tomjepp/ThomasJepp.SaintsRow
+   https://github.com/saintsrowmods/ThomasJepp.SaintsRow
 
 4. If you alter the software in any way you must clearly say that it has been modified. Do not claim that your modified version is the original software.
 

@@ -7,3 +7,4 @@ bin/*
 *.opensdf
 *.zip
 *.opendb
+obj/

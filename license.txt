@@ -1,5 +1,5 @@
 ThomasJepp.SaintsRow - Saints Row IV and Gat Out Of Hell tools
-Copyright (c) 2015, Thomas Jepp
+Copyright (c) 2013-2016, Thomas Jepp
 All rights reserved.
 
 You may redistribute the source code or compiled binaries as long as you meet the following conditions:

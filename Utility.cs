@@ -8,7 +8,7 @@ namespace ThomasJepp.SaintsRow
 {
     public static class Utility
     {
-        private static Platform DetectPlatform()
+        public static Platform DetectPlatform()
         {
             switch (Environment.OSVersion.Platform)
             {

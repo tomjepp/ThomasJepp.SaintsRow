@@ -29,8 +29,15 @@ namespace ThomasJepp.SaintsRow
         public Settings()
         {
             JObject json = null;
+            string settingsFilePath = Path.Combine(ThisAssemblyPath, "settings.json");
 
-            using (StreamReader sr = new StreamReader(Path.Combine(ThisAssemblyPath, "settings.json")))
+            if (!File.Exists(settingsFilePath))
+            {
+                // If the settings file is missing, default to autodetecting paths as before
+                return;
+            }
+
+            using (StreamReader sr = new StreamReader(settingsFilePath))
             {
                 using (JsonReader reader = new JsonTextReader(sr))
                 {

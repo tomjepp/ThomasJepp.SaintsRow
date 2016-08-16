@@ -126,7 +126,7 @@
     <Compile Include="MiscTypes\FLQuaternion.cs" />
     <Compile Include="MiscTypes\FLVector.cs" />
     <Compile Include="MiscTypes\SIMDVector128.cs" />
-    <Compile Include="MiscTypes\VWidePtrUIn64.cs" />
+    <Compile Include="MiscTypes\VWidePtrUInt64.cs" />
     <Compile Include="MiscTypes\VWidePtrUInt32.cs" />
     <Compile Include="NumberHelpers.cs" />
     <Compile Include="Packfiles\IPackfile.cs" />

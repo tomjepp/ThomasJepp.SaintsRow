@@ -108,6 +108,21 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version0A
             get { return m_Files[i]; }
         }
 
+        public IPackfileEntry this[string s]
+        {
+            get
+            {
+                string lowercase = s.ToLowerInvariant();
+                foreach (IPackfileEntry entry in m_Files)
+                {
+                    if (entry.Name.ToLowerInvariant() == lowercase)
+                        return entry;
+                }
+
+                return null;
+            }
+        }
+
         public int Version
         {
             get

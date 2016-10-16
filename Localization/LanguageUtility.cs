@@ -76,13 +76,19 @@ namespace ThomasJepp.SaintsRow.Localization
                 packfile = "misc.vpp_pc";
             }
 
+            using (Stream stream = instance.OpenLooseFile(filename))
+            {
+                if (stream != null)
+                    return GetDecodeCharMapFromStream(stream);
+            }
+
             using (Stream stream = instance.OpenPackfileFile(filename, packfile))
             {
-                return GetDecodeCharMapInternal(stream, language);
+                return GetDecodeCharMapFromStream(stream);
             }
         }
 
-        private static Dictionary<char, char> GetDecodeCharMapInternal(Stream charmapStream, Language language)
+        public static Dictionary<char, char> GetDecodeCharMapFromStream(Stream charmapStream)
         {
             List<string> lines = new List<string>();
 
@@ -140,13 +146,19 @@ namespace ThomasJepp.SaintsRow.Localization
                 packfile = "misc.vpp_pc";
             }
 
+            using (Stream stream = instance.OpenLooseFile(filename))
+            {
+                if (stream != null)
+                    return GetEncodeCharMapFromStream(stream);
+            }
+
             using (Stream stream = instance.OpenPackfileFile(filename, packfile))
             {
-                return GetEncodeCharMapInternal(stream, language);
+                return GetEncodeCharMapFromStream(stream);
             }
         }
 
-        private static Dictionary<char, char> GetEncodeCharMapInternal(Stream charmapStream, Language language)
+        private static Dictionary<char, char> GetEncodeCharMapFromStream(Stream charmapStream)
         {
             List<string> lines = new List<string>();
 

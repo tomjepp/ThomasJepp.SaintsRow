@@ -85,6 +85,7 @@
     <Compile Include="AssetAssembler\Version0C\PrimitiveData.cs" />
     <Compile Include="AssetAssembler\Version0C\Stream2ContainerHeader.cs" />
     <Compile Include="AssetAssembler\Version0C\WriteTimeSizes.cs" />
+    <Compile Include="Bitmaps\Version13\PegBitmapFormat.cs" />
     <Compile Include="Bitmaps\Version13\PegEntry.cs" />
     <Compile Include="Bitmaps\Version13\PegEntryData.cs" />
     <Compile Include="Bitmaps\Version13\PegFile.cs" />
@@ -102,6 +103,10 @@
     <Compile Include="ClothSimulation\Version05\ClothSimCollisionPrimitiveInfo.cs" />
     <Compile Include="ClothSimulation\Version05\SimulatedNodeLinkInfo.cs" />
     <Compile Include="ClothSimulation\Version05\SimulatedNodeInfo.cs" />
+    <Compile Include="Fonts\FontFile.cs" />
+    <Compile Include="Fonts\FontHeader.cs" />
+    <Compile Include="Fonts\FontCharacter.cs" />
+    <Compile Include="Fonts\FontKerningPair.cs" />
     <Compile Include="GameInstances\FileSearchResult.cs" />
     <Compile Include="GameSteamID.cs" />
     <Compile Include="GameInstances\GameInstance.cs" />

@@ -18,7 +18,7 @@ namespace ThomasJepp.SaintsRow.Bitmaps.Version13
         public ushort Height;
 
         [FieldOffset(0x0C)]
-        public ushort BitmapFormat;
+        public PegBitmapFormat BitmapFormat;
 
         [FieldOffset(0x0E)]
         public ushort PaletteFormat;

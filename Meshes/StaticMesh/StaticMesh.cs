@@ -19,6 +19,8 @@ namespace ThomasJepp.SaintsRow.Meshes.StaticMesh
         public RenderLibMeshData MeshData = new RenderLibMeshData();
         public List<StaticMeshMaterial> Materials = new List<StaticMeshMaterial>();
 
+        public uint[] MaterialMapCrcs;
+
         public ushort MeshVersion;
         public uint MeshGpuDataCrc;
         public uint MeshCpuDataSize;
@@ -62,6 +64,11 @@ namespace ThomasJepp.SaintsRow.Meshes.StaticMesh
                     throw new Exception();
 
                 textureNameStream.Align(2);
+            }
+
+            if (Header.Version < 0x2A)
+            {
+                Header.NumSubmeshVIDs = (ushort)Header.NumLogicalSubmeshes;
             }
 
             if (Header.NumNavpoints > 0)
@@ -128,7 +135,10 @@ namespace ThomasJepp.SaintsRow.Meshes.StaticMesh
 
                 // Skip pointer tables?
                 s.Seek(8 * Header.NumMaterialMaps, SeekOrigin.Current);
-                s.Seek(4 * Header.NumMaterialMaps, SeekOrigin.Current);
+
+                MaterialMapCrcs = new uint[Header.NumMaterialMaps];
+                for (int i = 0; i < Header.NumMaterialMaps; i++)
+                    MaterialMapCrcs[i] = s.ReadUInt32();
             }
 
             if (Header.NumMaterials > 0)
@@ -296,7 +306,11 @@ namespace ThomasJepp.SaintsRow.Meshes.StaticMesh
 
                 // Skip pointer tables?
                 s.Seek(8 * Header.NumMaterialMaps, SeekOrigin.Current);
-                s.Seek(4 * Header.NumMaterialMaps, SeekOrigin.Current);
+
+                for (int i = 0; i < Header.NumMaterialMaps; i++)
+                {
+                    s.WriteUInt32(MaterialMapCrcs[i]);
+                }
             }
 
             if (Header.NumMaterials > 0)

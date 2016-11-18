@@ -33,7 +33,10 @@ namespace ThomasJepp.SaintsRow.VFile
 
             s.Seek(position + Header.ReferenceDataSize + 1, SeekOrigin.Begin);
 
-            s.Align(16);
+            if (Header.Version >= 2)
+            {
+                s.Align(16);
+            }
         }
 
         public void Save(Stream s)

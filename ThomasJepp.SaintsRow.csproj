@@ -90,6 +90,7 @@
     <Compile Include="Bitmaps\Version13\PegEntryData.cs" />
     <Compile Include="Bitmaps\Version13\PegFile.cs" />
     <Compile Include="Bitmaps\Version13\PegHeader.cs" />
+    <Compile Include="Bitstream.cs" />
     <Compile Include="ByteHelpers.cs" />
     <Compile Include="ClothSimulation\Version02\ClothSimCollisionPrimitiveInfo.cs" />
     <Compile Include="ClothSimulation\Version02\ClothSimRopeInfo.cs" />
@@ -162,6 +163,9 @@
     <Compile Include="Saves\SaintsRowIVMod\SectionId.cs" />
     <Compile Include="Saves\SaintsRowIVMod\Sections\PlayerSection.cs" />
     <Compile Include="Saves\SaintsRowIVMod\Sections\Player\SavedPlayerData.cs" />
+    <Compile Include="Saves\SaintsRowIV\SavegameDirectory.cs" />
+    <Compile Include="Saves\SaintsRowIV\SavegameDirectoryHeader.cs" />
+    <Compile Include="Saves\SaintsRowIV\SavegameDirectorySlot.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Soundbanks\Streaming\AudioMetadata.cs" />
     <Compile Include="Soundbanks\Streaming\AudioMetadataHeader.cs" />

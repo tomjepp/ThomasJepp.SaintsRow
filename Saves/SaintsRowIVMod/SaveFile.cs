@@ -19,6 +19,11 @@ namespace ThomasJepp.SaintsRow.Saves.SaintsRowIVMod
         {
             MainHeader = s.ReadStruct<SaveGameMainHeader>();
 
+            if (MainHeader.Signature != 0x050c0914)
+            {
+                throw new Exception(String.Format("Got invalid signature. Expected 0x050c0914, got 0x0{0:x8}", MainHeader.Signature));
+            }
+
             while (s.Position < s.Length)
             {
                 long sectionStart = s.Position;

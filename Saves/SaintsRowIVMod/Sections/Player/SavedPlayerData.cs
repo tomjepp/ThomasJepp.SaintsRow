@@ -71,8 +71,8 @@ namespace ThomasJepp.SaintsRow.Saves.SaintsRowIVMod.Sections.Player
         [FieldOffset(0x18)]
         public UInt16 ReceivedPhonecalls;
 
-        //[FieldOffset(0x1A)]
-        //[MarshalAs(UnmanagedType.U1)]
-        //public bool HasCheated;
+        [FieldOffset(0x1A)]
+        [MarshalAs(UnmanagedType.U1)]
+        public bool HasCheated;
     }
 }

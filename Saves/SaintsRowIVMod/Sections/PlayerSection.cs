@@ -45,5 +45,18 @@ namespace ThomasJepp.SaintsRow.Saves.SaintsRowIVMod.Sections
                 _Section.Data.WriteStruct(_SavedPlayerData, 0);
             }
         }
+
+        public bool HasCheated
+        {
+            get
+            {
+                return _SavedPlayerData.HasCheated;
+            }
+            set
+            {
+                _SavedPlayerData.HasCheated = value;
+                _Section.Data.WriteStruct(_SavedPlayerData, 0);
+            }
+        }
     }
 }

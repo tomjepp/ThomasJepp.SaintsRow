@@ -11,7 +11,7 @@ namespace ThomasJepp.SaintsRow.Saves.SaintsRowIVMod
     public class SaveFile
     {
         public SaveGameMainHeader MainHeader;
-        private Dictionary<SectionId, Section> Sections = new Dictionary<SectionId, Section>();
+        public Dictionary<SectionId, Section> Sections = new Dictionary<SectionId, Section>();
 
         public PlayerSection Player;
 

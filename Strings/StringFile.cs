@@ -12,7 +12,7 @@ namespace ThomasJepp.SaintsRow.Strings
     public class StringFile
     {
         private StringHeader Header;
-        private List<Dictionary<UInt32, string>> Buckets = new List<Dictionary<UInt32, string>>();
+        private Dictionary<UInt32, string> Strings = new Dictionary<uint, string>();
 
         public void AddString(string key, string text)
         {
@@ -22,9 +22,10 @@ namespace ThomasJepp.SaintsRow.Strings
 
         public void AddString(UInt32 hash, string text)
         {
-            UInt32 mask = (UInt32)(Buckets.Count - 1);
-            UInt32 bucketIdx = (UInt32)(hash & mask);
-            Buckets[(int)bucketIdx].Add(hash, text);
+            if (Strings.ContainsKey(hash))
+                Strings[hash] = text;
+            else
+                Strings.Add(hash, text);
         }
 
         public string GetString(string key)
@@ -35,11 +36,8 @@ namespace ThomasJepp.SaintsRow.Strings
 
         public string GetString(UInt32 hash)
         {
-            UInt32 mask = (UInt32)(Buckets.Count - 1);
-            UInt32 bucketIdx = (UInt32)(hash & mask);
-
-            if (ContainsKey(hash))
-                return Buckets[(int)bucketIdx][hash];
+            if (Strings.ContainsKey(hash))
+                return Strings[hash];
             else
                 return null;
         }
@@ -52,21 +50,12 @@ namespace ThomasJepp.SaintsRow.Strings
 
         public bool ContainsKey(UInt32 hash)
         {
-            UInt32 mask = (UInt32)(Buckets.Count - 1);
-            UInt32 bucketIdx = (UInt32)(hash & mask);
-            return (Buckets[(int)bucketIdx].ContainsKey(hash));
+            return Strings.ContainsKey(hash);
         }
 
         public List<UInt32> GetHashes()
         {
-            IEnumerable<UInt32> hashes = new List<UInt32>();
-            
-            foreach (var bucket in Buckets)
-            {
-                hashes = hashes.Concat(bucket.Keys);
-            }
-
-            return hashes.ToList();
+            return Strings.Keys.ToList();
         }
 
         public bool FileIsSaintsRow2
@@ -104,18 +93,13 @@ namespace ThomasJepp.SaintsRow.Strings
         public Language Language { get; set; }
         public IGameInstance GameInstance { get; set; }
 
-        public StringFile(UInt16 bucketCount, Language language, IGameInstance instance)
+        public StringFile(Language language, IGameInstance instance)
         {
             GameInstance = instance;
             Language = language;
             Header = new StringHeader();
-            Header.BucketCount = bucketCount;
             Header.ID = 0xA84C7F73;
             Header.Version = 0x0001;
-            for (int i = 0; i < bucketCount; i++)
-            {
-                Buckets.Add(new Dictionary<UInt32, string>());
-            }
         }
 
         public StringFile(Stream stream, Language language, IGameInstance instance)
@@ -133,20 +117,20 @@ namespace ThomasJepp.SaintsRow.Strings
                 // Seek to the start of our new bucket
                 stream.Seek(Marshal.SizeOf(typeof(StringHeader)) + (i * Marshal.SizeOf(typeof(StringBucket))), SeekOrigin.Begin);
                 StringBucket bucket = stream.ReadStruct<StringBucket>();
-                                
+
                 Dictionary<UInt32, string> bucketData = new Dictionary<uint, string>();
                 for (int j = 0; j < bucket.StringCount; j++)
                 {
                     stream.Seek(bucket.StringOffset + (sizeof(UInt32) * j), SeekOrigin.Begin);
                     UInt32 stringOffset = stream.ReadUInt32();
-                    
+
                     stream.Seek(stringOffset, SeekOrigin.Begin);
                     UInt32 stringHash = stream.ReadUInt32();
                     if (FileIsSaintsRow2)
                         stringHash = stringHash.Swap();
 
                     sb.Clear();
-                    
+
                     int length = 0;
                     while (true)
                     {
@@ -171,9 +155,8 @@ namespace ThomasJepp.SaintsRow.Strings
                     }
 
                     string text = sb.ToString();
-                    bucketData.Add(stringHash, text);
+                    Strings.Add(stringHash, text);
                 }
-                Buckets.Add(bucketData);
             }
         }
 
@@ -181,17 +164,42 @@ namespace ThomasJepp.SaintsRow.Strings
         {
             var map = LanguageUtility.GetEncodeCharMap(GameInstance, Language);
 
-            int total = 0;
-            foreach (var bucket in Buckets)
+            UInt16 bucketCount = (UInt16)(Strings.Count / 5);
+            if (bucketCount < 32)
+                bucketCount = 32;
+            else if (bucketCount < 64)
+                bucketCount = 64;
+            else if (bucketCount < 128)
+                bucketCount = 128;
+            else if (bucketCount < 256)
+                bucketCount = 256;
+            else if (bucketCount < 512)
+                bucketCount = 512;
+            else
+                bucketCount = 1024;
+
+            Dictionary<uint, string>[] buckets = new Dictionary<uint, string>[bucketCount];
+            for (int i = 0; i < bucketCount; i++)
             {
-                total += bucket.Count;
+                buckets[bucketCount] = new Dictionary<uint, string>();
             }
-            Header.StringCount = (UInt32)total;
+
+            foreach (var pair in Strings)
+            {
+                uint hash = pair.Key;
+                string text = pair.Value;
+
+                UInt32 mask = (UInt32)(buckets.Length - 1);
+                UInt32 bucketIdx = (UInt32)(hash & mask);
+                buckets[(int)bucketIdx].Add(hash, text);
+            }
+
+            Header.StringCount = (UInt32)Strings.Count;
 
             stream.WriteStruct<StringHeader>(Header);
-            int nextBucketData = Buckets.Count * Marshal.SizeOf(typeof(StringBucket)) + Marshal.SizeOf(typeof(StringHeader));
-            int nextStringPos = Buckets.Count * Marshal.SizeOf(typeof(StringBucket)) + Marshal.SizeOf(typeof(StringHeader)) + Marshal.SizeOf(typeof(UInt32)) * total;
-            foreach (var bucket in Buckets)
+            int nextBucketData = buckets.Length * Marshal.SizeOf(typeof(StringBucket)) + Marshal.SizeOf(typeof(StringHeader));
+            int nextStringPos = buckets.Length * Marshal.SizeOf(typeof(StringBucket)) + Marshal.SizeOf(typeof(StringHeader)) + Marshal.SizeOf(typeof(UInt32)) * Strings.Count;
+            foreach (var bucket in buckets)
             {
                 long bucketPos = stream.Position;
                 StringBucket strBucket = new StringBucket();

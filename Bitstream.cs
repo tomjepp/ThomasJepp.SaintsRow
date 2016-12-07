@@ -60,7 +60,6 @@ namespace ThomasJepp.SaintsRow
             int byteIndex = Position >> 3;
             int bitIndex = Position % 8;
 
-            byte b = BackingStore[byteIndex];
             byte mask = (byte)(1 << bitIndex);
 
             if (bit)

@@ -195,6 +195,7 @@ namespace ThomasJepp.SaintsRow.Strings
             }
 
             Header.StringCount = (UInt32)Strings.Count;
+            Header.BucketCount = bucketCount;
 
             stream.WriteStruct<StringHeader>(Header);
             int nextBucketData = buckets.Length * Marshal.SizeOf(typeof(StringBucket)) + Marshal.SizeOf(typeof(StringHeader));

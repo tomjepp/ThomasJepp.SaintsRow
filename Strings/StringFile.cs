@@ -181,7 +181,7 @@ namespace ThomasJepp.SaintsRow.Strings
             Dictionary<uint, string>[] buckets = new Dictionary<uint, string>[bucketCount];
             for (int i = 0; i < bucketCount; i++)
             {
-                buckets[bucketCount] = new Dictionary<uint, string>();
+                buckets[i] = new Dictionary<uint, string>();
             }
 
             foreach (var pair in Strings)

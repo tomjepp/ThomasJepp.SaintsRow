@@ -152,17 +152,24 @@ namespace ThomasJepp.SaintsRow.Meshes.StaticMesh
                 {
                     StaticMeshMaterial material = new StaticMeshMaterial();
                     Materials.Add(material);
+
+                    long materialStart = s.Position;
+
                     material.DataSize = s.ReadUInt32();
 
                     s.Align(8);
 
                     material.Data = s.ReadStruct<RenderLibMaterialData>();
 
+                    s.Align(4);
+
                     for (int j = 0; j < material.Data.NumTextures; j++)
                     {
                         RenderLibMaterialTextureDesc textureDesc = s.ReadStruct<RenderLibMaterialTextureDesc>();
                         material.TextureDescriptions.Add(textureDesc);
                     }
+
+                    s.Align(4);
 
                     for (int j = 0; j < material.Data.NumConstants; j++)
                     {
@@ -176,6 +183,12 @@ namespace ThomasJepp.SaintsRow.Meshes.StaticMesh
                     {
                         RenderLibMaterialConstants constant = s.ReadStruct<RenderLibMaterialConstants>();
                         material.Constants.Add(constant);
+                    }
+
+                    uint materialSize = (uint)(s.Position - materialStart);
+                    if (materialSize != material.DataSize)
+                    {
+                        throw new Exception(String.Format("materialSize != material.DataSize - {0} != {1}", materialSize, material.DataSize));
                     }
 
                     if (material.Data.NumTextures > 0)

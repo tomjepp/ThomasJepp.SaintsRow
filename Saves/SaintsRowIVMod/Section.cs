@@ -10,7 +10,7 @@ namespace ThomasJepp.SaintsRow.Saves.SaintsRowIVMod
     {
         private SaveGameSectionHeader Header;
 
-        public SectionId SectionId
+        public GamesaveSectionIds SectionId
         {
             get
             {

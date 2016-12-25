@@ -160,8 +160,10 @@
     <Compile Include="Saves\SaintsRowIVMod\SaveGameMainHeader.cs" />
     <Compile Include="Saves\SaintsRowIVMod\SaveGameSectionHeader.cs" />
     <Compile Include="Saves\SaintsRowIVMod\Section.cs" />
-    <Compile Include="Saves\SaintsRowIVMod\SectionId.cs" />
+    <Compile Include="Saves\SaintsRowIVMod\GamesaveSectionIds.cs" />
     <Compile Include="Saves\SaintsRowIVMod\Sections\PlayerSection.cs" />
+    <Compile Include="Saves\SaintsRowIVMod\Sections\Player\CollectiblePersonaSavedInfo.cs" />
+    <Compile Include="Saves\SaintsRowIVMod\Sections\Player\DifficultyLevelType.cs" />
     <Compile Include="Saves\SaintsRowIVMod\Sections\Player\SavedPlayerData.cs" />
     <Compile Include="Saves\SaintsRowIV\SavegameDirectory.cs" />
     <Compile Include="Saves\SaintsRowIV\SavegameDirectorySlot.cs" />

@@ -15,7 +15,7 @@ namespace ThomasJepp.SaintsRow.Saves.SaintsRowIVMod
     public struct SaveGameSectionHeader
     {
         [FieldOffset(0x00)]
-        public SectionId SectionId;
+        public GamesaveSectionIds SectionId;
 
         [FieldOffset(0x04)]
         public UInt32 Version;

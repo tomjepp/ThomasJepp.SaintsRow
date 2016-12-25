@@ -11,7 +11,7 @@ namespace ThomasJepp.SaintsRow.Saves.SaintsRowIVMod
     public class SaveFile
     {
         public SaveGameMainHeader MainHeader;
-        public Dictionary<SectionId, Section> Sections = new Dictionary<SectionId, Section>();
+        public Dictionary<GamesaveSectionIds, Section> Sections = new Dictionary<GamesaveSectionIds, Section>();
 
         public PlayerSection Player;
 
@@ -35,7 +35,7 @@ namespace ThomasJepp.SaintsRow.Saves.SaintsRowIVMod
                 Sections.Add(section.SectionId, section);
             }
 
-            Player = new PlayerSection(Sections[SectionId.GSSI_PLAYER]);
+            Player = new PlayerSection(Sections[GamesaveSectionIds.GSSI_PLAYER]);
         }
 
         public void Save(Stream s)

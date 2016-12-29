@@ -109,7 +109,7 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version04
 
         public void AddFile(Stream stream, string filename)
         {
-            Files.Add(new PackfileEntry(this, new PackfileEntryFileData(), filename));
+            Files.Add(new PackfileEntry(this, new PackfileEntryFileData(), filename, true));
             m_Streams.Add(filename, stream);
         }
 

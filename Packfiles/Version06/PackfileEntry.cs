@@ -20,6 +20,12 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version06
         {
             get { return (int)Data.Size; }
         }
+        public bool HasStream
+        {
+            get { return !IsNew && Packfile.DataStream != null; }
+        }
+
+        public bool IsNew { get; set; }
 
         public Stream GetStream()
         {
@@ -47,11 +53,16 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version06
             return ms;
         }
 
-        public PackfileEntry(Packfile packfile, PackfileEntryFileData data, string filename)
+        public PackfileEntry(Packfile packfile, PackfileEntryFileData data, string filename) : this(packfile, data, filename, false)
+        {
+        }
+
+        public PackfileEntry(Packfile packfile, PackfileEntryFileData data, string filename, bool isNew)
         {
             Packfile = packfile;
             Data = data;
             Filename = filename;
+            IsNew = isNew;
         }
     }
 }

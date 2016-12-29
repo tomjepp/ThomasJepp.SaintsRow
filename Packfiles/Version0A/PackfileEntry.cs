@@ -23,11 +23,18 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version0A
 
         public bool HasStream
         {
-            get { return Data.Size != 0 && Packfile.DataStream != null; }
+            get { return !IsNew && Packfile.DataStream != null; }
         }
+
+        public bool IsNew { get; set; }
 
         public Stream GetStream()
         {
+            if (!this.HasStream)
+            {
+                return null;
+            }
+
             byte[] data = new byte[Data.Size];
             long offset = Packfile.DataOffset + Data.Start;
             Packfile.DataStream.Seek(offset, SeekOrigin.Begin);
@@ -52,11 +59,15 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version0A
             return ms;
         }
 
-        public PackfileEntry(Packfile packfile, PackfileEntryFileData data, string filename)
+        public PackfileEntry(Packfile packfile, PackfileEntryFileData data, string filename) : this(packfile, data, filename, false)
+        {
+        }
+            public PackfileEntry(Packfile packfile, PackfileEntryFileData data, string filename, bool isNew)
         {
             Packfile = packfile;
             Data = data;
             Filename = filename;
+            IsNew = isNew;
         }
     }
 }

@@ -8,6 +8,8 @@ namespace ThomasJepp.SaintsRow.Packfiles
     {
         string Name { get; }
         int Size { get; }
+        bool IsNew { get; }
+        bool HasStream { get; }
         Stream GetStream();
     }
 }

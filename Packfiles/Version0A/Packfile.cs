@@ -146,7 +146,7 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version0A
 
         public void AddFile(Stream stream, string filename)
         {
-            Files.Add(new PackfileEntry(this, new PackfileEntryFileData(), filename));
+            Files.Add(new PackfileEntry(this, new PackfileEntryFileData(), filename, true));
             m_Streams.Add(filename, stream);
         }
 
@@ -241,10 +241,14 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version0A
                 Stream fs;
                 if (entry.HasStream)
                     fs = entry.GetStream();
-                else
+                else if (m_Streams.ContainsKey(entry.Name))
                 {
                     fs = m_Streams[entry.Name];
                     fs.Seek(0, SeekOrigin.Begin);
+                }
+                else
+                {
+                    throw new Exception("PackfileEntry has no stream, but isn't a new file.");
                 }
 
                 bool isLast = (i == (Files.Count - 1));

@@ -156,6 +156,8 @@ namespace ThomasJepp.SaintsRow.Soundbanks.Streaming
             }
             stream.Seek(0, SeekOrigin.Begin);
             stream.WriteStruct(Header);
+
+            stream.SetLength(stream.Length.Align(2048));
         }
     }
 }

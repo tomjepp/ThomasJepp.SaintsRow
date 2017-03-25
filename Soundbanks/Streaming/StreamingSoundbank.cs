@@ -31,6 +31,13 @@ namespace ThomasJepp.SaintsRow.Soundbanks.Streaming
             for (int i = 0; i < Header.NumFiles; i++)
             {
                 var fileInfo = DataStream.ReadStruct<SoundbankEntryInfo>();
+
+                if ((fileInfo.MetadataLength % 2048) != 0)
+                    throw new Exception();
+
+                if ((fileInfo.Offset % 2048) != 0)
+                    throw new Exception();
+
                 var entry = new SoundbankEntry(this, fileInfo);
                 Files.Add(entry);
             }
@@ -108,6 +115,7 @@ namespace ThomasJepp.SaintsRow.Soundbanks.Streaming
                 count++;
             }
 
+            bnkStream.SetLength(bnkStream.Length.Align(2048));
         }
 
         public void Dispose()

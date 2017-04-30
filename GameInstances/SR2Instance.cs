@@ -20,7 +20,7 @@ namespace ThomasJepp.SaintsRow.GameInstances
             get { return _GamePath; }
         }
 
-        private string[] PackfilesToTry = new string[] { "patch.vpp_pc", "anims.vpp_pc", "audio.vpp_pc", "chunks1.vpp_pc", "chunks2.vpp_pc", "chunks3.vpp_pc", "chunks4.vpp_pc", "city_load.vpp_pc", "common.vpp_pc", "cutscenes.vpp_pc", "hmaps.vpp_pc", "meshes.vpp_pc", "music1.vpp_pc", "music2.vpp_pc", "music3.vpp_pc", "music4.vpp_pc", "pegs.vpp_pc", "decals.vpp_pc", "dlc1.vpp_pc", "dlc2.vpp_pc", "dlc3.vpp_pc", "effects.vpp_pc", "high_mips.vpp_pc", "interface.vpp_pc", "items.vpp_pc", "misc.vpp_pc", "misc_tables.vpp_pc", "player_morph.vpp_pc", "player_taunts.vpp_pc", "shaders.vpp_pc", "skybox.vpp_pc", "sound_turbo.vpp_pc", "sounds.vpp_pc", "sounds_common.vpp_pc", "sr3_city_0.vpp_pc", "sr3_city_1.vpp_pc", "sr3_city_missions.vpp_pc", "superpowers.vpp_pc", "vehicles.vpp_pc", "voices.vpp_pc" };
+        private string[] PackfilesToTry = new string[] { "patch.vpp_pc", "anims.vpp_pc", "audio.vpp_pc", "chunks1.vpp_pc", "chunks2.vpp_pc", "chunks3.vpp_pc", "chunks4.vpp_pc", "city_load.vpp_pc", "common.vpp_pc", "cutscenes.vpp_pc", "hmaps.vpp_pc", "meshes.vpp_pc", "music1.vpp_pc", "music2.vpp_pc", "music3.vpp_pc", "music4.vpp_pc", "pegs.vpp_pc", "textures.vpp_pc" };
 
         public Packfiles.IPackfile OpenPackfile(string name)
         {

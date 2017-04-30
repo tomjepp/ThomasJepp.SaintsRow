@@ -84,8 +84,11 @@ namespace ThomasJepp.SaintsRow.Localization
 
             using (Stream stream = instance.OpenPackfileFile(filename, packfile))
             {
-                return GetDecodeCharMapFromStream(stream);
+                if (stream != null)
+                    return GetDecodeCharMapFromStream(stream);
             }
+
+            return new Dictionary<char, char>();
         }
 
         public static Dictionary<char, char> GetDecodeCharMapFromStream(Stream charmapStream)
@@ -154,8 +157,11 @@ namespace ThomasJepp.SaintsRow.Localization
 
             using (Stream stream = instance.OpenPackfileFile(filename, packfile))
             {
-                return GetEncodeCharMapFromStream(stream);
+                if (stream != null)
+                    return GetEncodeCharMapFromStream(stream);
             }
+
+            return new Dictionary<char, char>();
         }
 
         private static Dictionary<char, char> GetEncodeCharMapFromStream(Stream charmapStream)

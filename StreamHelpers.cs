@@ -7,6 +7,36 @@ namespace ThomasJepp.SaintsRow
 {
     public static class StreamHelpers
     {
+        #region 64-bit read helpers
+        public static MemoryStream ReadMemoryStream(this Stream stream, ulong length)
+        {
+            MemoryStream ms = new MemoryStream();
+
+            byte[] buffer = new byte[1048576];
+
+            ulong remaining = length;
+            while (remaining > 0)
+            {
+                int toRead = (remaining > (ulong)buffer.Length) ? buffer.Length : (int)remaining;
+                int read = stream.Read(buffer, 0, toRead);
+                ms.Write(buffer, 0, read);
+                remaining -= (ulong)read;
+            }
+
+            ms.Seek(0, SeekOrigin.Begin);
+
+            return ms;
+        }
+
+        public static byte[] ReadBytes(this Stream stream, ulong length)
+        {
+            using (MemoryStream ms = ReadMemoryStream(stream, length))
+            {
+                return ms.ToArray();
+            }
+        }
+        #endregion
+
         #region Struct helpers
 
         public static T ReadStruct<T>(this Stream stream)

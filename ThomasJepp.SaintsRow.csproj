@@ -51,9 +51,11 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="lz4.AnyCPU.loader, Version=1.0.8.0, Culture=neutral, PublicKeyToken=7aa3c636ef56b77f, processorArchitecture=MSIL">
+      <HintPath>..\packages\IonKiwi.lz4.net.1.0.8.1\lib\net45\lz4.AnyCPU.loader.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -154,6 +156,11 @@
     <Compile Include="Packfiles\Version0A\PackfileFileData.cs" />
     <Compile Include="Packfiles\Version0A\PackfileFileEntryData.cs" />
     <Compile Include="Packfiles\Version0A\PackfileFlags.cs" />
+    <Compile Include="Packfiles\Version11\Packfile.cs" />
+    <Compile Include="Packfiles\Version11\PackfileEntry.cs" />
+    <Compile Include="Packfiles\Version11\PackfileFileData.cs" />
+    <Compile Include="Packfiles\Version11\PackfileFileEntryData.cs" />
+    <Compile Include="Packfiles\Version11\PackfileFlags.cs" />
     <Compile Include="Platform.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Saves\SaintsRowIVMod\SaveFile.cs" />
@@ -205,6 +212,12 @@
     <Folder Include="Soundbanks\Wwise\Sections\STMG\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="lz4.x64.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lz4.x86.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="settings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

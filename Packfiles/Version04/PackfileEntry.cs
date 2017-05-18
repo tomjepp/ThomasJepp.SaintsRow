@@ -16,6 +16,15 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version04
             get { return Filename; }
         }
 
+        public string Path
+        {
+            get { return null; }
+        }
+
+        public string FullPath
+        {
+            get { return Name; }
+        }
         public int Size
         {
             get { return (int)Data.Size; }

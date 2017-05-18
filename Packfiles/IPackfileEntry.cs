@@ -7,6 +7,9 @@ namespace ThomasJepp.SaintsRow.Packfiles
     public interface IPackfileEntry
     {
         string Name { get; }
+        string Path { get; }
+        string FullPath { get; }
+
         int Size { get; }
         bool IsNew { get; }
         bool HasStream { get; }

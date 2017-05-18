@@ -2,14 +2,26 @@
 using System.Collections.Generic;
 using System.IO;
 using Ionic.Zlib;
+using lz4;
 
-namespace ThomasJepp.SaintsRow.Packfiles.Version0A
+namespace ThomasJepp.SaintsRow.Packfiles.Version11
 {
     public class PackfileEntry : IPackfileEntry
     {
         private Packfile Packfile;
         public PackfileEntryFileData Data;
         private string Filename;
+        private string FilePath;
+
+        public string Path
+        {
+            get { return FilePath; }
+        }
+
+        public string FullPath
+        {
+            get { return System.IO.Path.Combine(FilePath, Name); }
+        }
 
         public string Name
         {
@@ -28,16 +40,6 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version0A
 
         public bool IsNew { get; set; }
 
-        public string Path
-        {
-            get { return null; }
-        }
-
-        public string FullPath
-        {
-            get { return Name; }
-        }
-
         public Stream GetStream()
         {
             if (!this.HasStream)
@@ -45,38 +47,36 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version0A
                 return null;
             }
 
-            byte[] data = new byte[Data.Size];
-            long offset = Packfile.DataOffset + Data.Start;
+            long offset = (Packfile.DataOffset + (long)Data.Start);
             Packfile.DataStream.Seek(offset, SeekOrigin.Begin);
+
             if (Data.Flags.HasFlag(PackfileEntryFlags.Compressed))
             {
-                byte[] compressedData = new byte[Data.CompressedSize];
-                Packfile.DataStream.Read(compressedData, 0, (int)Data.CompressedSize);
-                using (MemoryStream tempStream = new MemoryStream(compressedData))
+                MemoryStream uncompressedData;
+                using (MemoryStream compressedStream = Packfile.DataStream.ReadMemoryStream(Data.CompressedSize))
                 {
-                    using (Stream s = new ZlibStream(tempStream, CompressionMode.Decompress, true))
+                    using (LZ4Stream s = LZ4Stream.CreateDecompressor(compressedStream, LZ4StreamMode.Read, true))
                     {
-                        s.Read(data, 0, (int)Data.Size);
+                        uncompressedData = s.ReadMemoryStream(Data.Size);
                     }
                 }
+                return uncompressedData;
             }
             else
             {
-                Packfile.DataStream.Read(data, 0, (int)Data.Size);
+                return Packfile.DataStream.ReadMemoryStream(Data.Size);
             }
-
-            MemoryStream ms = new MemoryStream(data);
-            return ms;
         }
 
-        public PackfileEntry(Packfile packfile, PackfileEntryFileData data, string filename) : this(packfile, data, filename, false)
+        public PackfileEntry(Packfile packfile, PackfileEntryFileData data, string filename, string path) : this(packfile, data, filename, path, false)
         {
         }
-            public PackfileEntry(Packfile packfile, PackfileEntryFileData data, string filename, bool isNew)
+        public PackfileEntry(Packfile packfile, PackfileEntryFileData data, string filename, string path, bool isNew)
         {
             Packfile = packfile;
             Data = data;
             Filename = filename;
+            FilePath = path;
             IsNew = isNew;
         }
     }

@@ -27,6 +27,9 @@ namespace ThomasJepp.SaintsRow.Packfiles
                 case 0x0A: // Saints Row IV & Saints Row: Gat out of Hell
                     return new Packfiles.Version0A.Packfile(stream, isStr2);
 
+                case 0x11: // Agents of Mayhem
+                    return new Packfiles.Version11.Packfile(stream, isStr2);
+
                 default:
                     throw new Exception(String.Format("Unsupported packfile version: {0:X4}", version));
             }
@@ -44,6 +47,9 @@ namespace ThomasJepp.SaintsRow.Packfiles
 
                 case 0x0A: // Saints Row IV & Saints Row: Gat out of Hell
                     return new Packfiles.Version0A.Packfile(isStr2);
+
+                case 0x11: // Agents of Mayhem
+                    return new Packfiles.Version11.Packfile(isStr2);
 
                 default:
                     throw new Exception(String.Format("Unsupported packfile version: {0:X4}", version));

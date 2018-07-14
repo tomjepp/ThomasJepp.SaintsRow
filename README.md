@@ -6,6 +6,7 @@ The ThomasJepp.SaintsRow library supports the following formats:
 
 | File type | Extensions | Support |
 |-----------|------------|---------|
+| Red Faction Guerilla Package files (includes remake) | .vpp_pc, .str2_pc | Read only support |
 | Saints Row 2 PC Package files | .vpp_pc | Full read and write support |
 | Saints Row: The Third PC Package files | .vpp_pc, .str2_pc | Read only support |
 | Saints Row: The Third PC Asset Assembler files | .asm_pc | Full read and write support (this is largely untested however!) |

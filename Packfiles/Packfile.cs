@@ -18,6 +18,9 @@ namespace ThomasJepp.SaintsRow.Packfiles
 
             switch (version)
             {
+                case 0x03: // RF:G and remaster
+                    return new Packfiles.Version03.Packfile(stream);
+
                 case 0x04: // Saints Row 2
                     return new Packfiles.Version04.Packfile(stream);
 

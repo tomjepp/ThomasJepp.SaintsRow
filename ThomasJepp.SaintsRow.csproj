@@ -139,6 +139,11 @@
     <Compile Include="Packfiles\IPackfileEntry.cs" />
     <Compile Include="Packfiles\OriginalPackfileInfo.cs" />
     <Compile Include="Packfiles\Packfile.cs" />
+    <Compile Include="Packfiles\Version03\Packfile.cs" />
+    <Compile Include="Packfiles\Version03\PackfileEntry.cs" />
+    <Compile Include="Packfiles\Version03\PackfileFileData.cs" />
+    <Compile Include="Packfiles\Version03\PackfileFileEntryData.cs" />
+    <Compile Include="Packfiles\Version03\PackfileFlags.cs" />
     <Compile Include="Packfiles\Version04\Packfile.cs" />
     <Compile Include="Packfiles\Version04\PackfileEntry.cs" />
     <Compile Include="Packfiles\Version04\PackfileFileData.cs" />

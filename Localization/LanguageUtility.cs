@@ -61,31 +61,54 @@ namespace ThomasJepp.SaintsRow.Localization
             }
         }
 
+        private static Dictionary<GameSteamID, Dictionary<Language, Dictionary<char, char>>> DecodeCharMapCache = new Dictionary<GameSteamID, Dictionary<Language, Dictionary<char, char>>>();
+
         public static Dictionary<char, char> GetDecodeCharMap(IGameInstance instance, Language language)
         {
-            string filename = null;
-            string packfile = null;
-            if (instance.Game == GameSteamID.SaintsRow2)
+            if (!DecodeCharMapCache.ContainsKey(instance.Game))
             {
-                filename = String.Format("charlist_{0}.txt", GetLanguageCode(language).ToLowerInvariant());
-                packfile = "patch.vpp_pc";
+                DecodeCharMapCache.Add(instance.Game, new Dictionary<Language, Dictionary<char, char>>());
+            }
+
+            if (DecodeCharMapCache[instance.Game].ContainsKey(language))
+            {
+                return DecodeCharMapCache[instance.Game][language];
             }
             else
             {
-                filename = String.Format("charlist_{0}.dat", GetLanguageCode(language).ToLowerInvariant());
-                packfile = "misc.vpp_pc";
-            }
+                string filename = null;
+                string packfile = null;
+                if (instance.Game == GameSteamID.SaintsRow2)
+                {
+                    filename = String.Format("charlist_{0}.txt", GetLanguageCode(language).ToLowerInvariant());
+                    packfile = "patch.vpp_pc";
+                }
+                else
+                {
+                    filename = String.Format("charlist_{0}.dat", GetLanguageCode(language).ToLowerInvariant());
+                    packfile = "misc.vpp_pc";
+                }
 
-            using (Stream stream = instance.OpenLooseFile(filename))
-            {
-                if (stream != null)
-                    return GetDecodeCharMapFromStream(stream);
-            }
+                using (Stream stream = instance.OpenLooseFile(filename))
+                {
+                    if (stream != null)
+                    {
+                        Dictionary<char, char> map = GetDecodeCharMapFromStream(stream);
+                        DecodeCharMapCache[instance.Game].Add(language, map);
+                        return map;
+                    }
 
-            using (Stream stream = instance.OpenPackfileFile(filename, packfile))
-            {
-                if (stream != null)
-                    return GetDecodeCharMapFromStream(stream);
+                }
+
+                using (Stream stream = instance.OpenPackfileFile(filename, packfile))
+                {
+                    if (stream != null)
+                    {
+                        Dictionary<char, char> map = GetDecodeCharMapFromStream(stream);
+                        DecodeCharMapCache[instance.Game].Add(language, map);
+                        return map;
+                    }
+                }
             }
 
             return new Dictionary<char, char>();
@@ -134,34 +157,57 @@ namespace ThomasJepp.SaintsRow.Localization
             return map;
         }
 
+        private static Dictionary<GameSteamID, Dictionary<Language, Dictionary<char, char>>> EncodeCharMapCache = new Dictionary<GameSteamID, Dictionary<Language, Dictionary<char, char>>>();
+
         public static Dictionary<char, char> GetEncodeCharMap(IGameInstance instance, Language language)
         {
-            string filename = null;
-            string packfile = null;
-            if (instance.Game == GameSteamID.SaintsRow2)
+            if (!EncodeCharMapCache.ContainsKey(instance.Game))
             {
-                filename = String.Format("charlist_{0}.txt", GetLanguageCode(language).ToLowerInvariant());
-                packfile = "patch.vpp_pc";
+                EncodeCharMapCache.Add(instance.Game, new Dictionary<Language, Dictionary<char, char>>());
+            }
+
+            if (EncodeCharMapCache[instance.Game].ContainsKey(language))
+            {
+                return EncodeCharMapCache[instance.Game][language];
             }
             else
             {
-                filename = String.Format("charlist_{0}.dat", GetLanguageCode(language).ToLowerInvariant());
-                packfile = "misc.vpp_pc";
-            }
 
-            using (Stream stream = instance.OpenLooseFile(filename))
-            {
-                if (stream != null)
-                    return GetEncodeCharMapFromStream(stream);
-            }
+                string filename = null;
+                string packfile = null;
+                if (instance.Game == GameSteamID.SaintsRow2)
+                {
+                    filename = String.Format("charlist_{0}.txt", GetLanguageCode(language).ToLowerInvariant());
+                    packfile = "patch.vpp_pc";
+                }
+                else
+                {
+                    filename = String.Format("charlist_{0}.dat", GetLanguageCode(language).ToLowerInvariant());
+                    packfile = "misc.vpp_pc";
+                }
 
-            using (Stream stream = instance.OpenPackfileFile(filename, packfile))
-            {
-                if (stream != null)
-                    return GetEncodeCharMapFromStream(stream);
-            }
+                using (Stream stream = instance.OpenLooseFile(filename))
+                {
+                    if (stream != null)
+                    {
+                        Dictionary<char, char> map = GetEncodeCharMapFromStream(stream);
+                        EncodeCharMapCache[instance.Game].Add(language, map);
+                        return map;
+                    }
+                }
 
-            return new Dictionary<char, char>();
+                using (Stream stream = instance.OpenPackfileFile(filename, packfile))
+                {
+                    if (stream != null)
+                    {
+                        Dictionary<char, char> map = GetEncodeCharMapFromStream(stream);
+                        EncodeCharMapCache[instance.Game].Add(language, map);
+                        return map;
+                    }
+                }
+
+                return new Dictionary<char, char>();
+            }
         }
 
         private static Dictionary<char, char> GetEncodeCharMapFromStream(Stream charmapStream)

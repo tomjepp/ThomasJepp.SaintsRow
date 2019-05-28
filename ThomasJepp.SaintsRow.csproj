@@ -175,7 +175,9 @@
     <Compile Include="Settings.cs" />
     <Compile Include="Soundbanks\Streaming\AudioMetadata.cs" />
     <Compile Include="Soundbanks\Streaming\AudioMetadataHeader.cs" />
-    <Compile Include="Soundbanks\Streaming\AudioMetadataSubtitleHeader.cs" />
+    <Compile Include="Soundbanks\Streaming\AudioMetadataSubtitleHeaderV2.cs" />
+    <Compile Include="Soundbanks\Streaming\AudioMetadataSubtitleHeaderV3.cs" />
+    <Compile Include="Soundbanks\Streaming\LocalisedVoiceSubtitleHeader.cs" />
     <Compile Include="Soundbanks\Streaming\SoundbankEntry.cs" />
     <Compile Include="Soundbanks\Streaming\SoundbankEntryInfo.cs" />
     <Compile Include="Soundbanks\Streaming\SoundbankHeader.cs" />

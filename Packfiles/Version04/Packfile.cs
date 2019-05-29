@@ -194,9 +194,29 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version04
                 Stream inStream = m_Streams[entry.Name];
                 entry.Data.Size = (uint)inStream.Length;
                 entry.Data.Start = dataOffset;
-                entry.Data.CompressedSize = (uint)0xFFFFFFFF;
-                inStream.CopyTo(stream);
-                dataOffset += entry.Data.Size;
+
+                if (IsCompressed)
+                {
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        using (ZlibStream zs = new ZlibStream(ms, CompressionMode.Compress, CompressionLevel.BestCompression, true))
+                        {
+                            zs.FlushMode = FlushType.Sync;
+                            inStream.CopyTo(zs);
+                        }
+
+                        ms.Seek(0, SeekOrigin.Begin);
+                        entry.Data.CompressedSize = (uint)ms.Length;
+                        ms.CopyTo(stream);
+                        dataOffset += entry.Data.CompressedSize;
+                    }
+                }
+                else
+                {
+                    entry.Data.CompressedSize = (uint)0xFFFFFFFF;
+                    inStream.CopyTo(stream);
+                    dataOffset += entry.Data.Size;
+                }
                 stream.Align(2048);
                 dataOffset = dataOffset.Align(2048);
             }

@@ -197,8 +197,8 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version04
                 entry.Data.CompressedSize = (uint)0xFFFFFFFF;
                 inStream.CopyTo(stream);
                 dataOffset += entry.Data.Size;
-                stream.Align(16);
-                dataOffset = dataOffset.Align(16);
+                stream.Align(2048);
+                dataOffset = dataOffset.Align(2048);
             }
 
             // Write Header

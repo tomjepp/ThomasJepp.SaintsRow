@@ -7,6 +7,7 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version04
 {
     public enum PackfileFlags : uint
     {
-        Compressed = 0x01
+        Compressed = 0x01,
+        Condensed = 0x02
     }
 }

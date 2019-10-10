@@ -33,6 +33,7 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version04
 
             if (Packfile.IsCompressed)
             {
+
                 // No SR2 packages for PC are compressed?
                 throw new NotImplementedException();
             }

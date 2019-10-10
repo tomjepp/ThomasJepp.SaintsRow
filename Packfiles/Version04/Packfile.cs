@@ -102,8 +102,8 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version04
 
         public bool IsCondensed
         {
-            get { return false; }
-            set { throw new NotImplementedException("Saints Row 2 packfiles cannot be condensed."); }
+            get { return FileData.Flags.HasFlag(PackfileFlags.Condensed); }
+            set { if (value) { FileData.Flags |= PackfileFlags.Condensed; } else { FileData.Flags &= ~PackfileFlags.Condensed; } }
         }
 
 
@@ -188,28 +188,32 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version04
 
             // Write data
             uint dataOffset = 0;
+            uint uncompressedSize = 0;
             stream.Seek(CalculateDataStartOffset(), SeekOrigin.Begin);
             foreach (PackfileEntry entry in Files)
             {
+                Console.WriteLine();
+                Console.WriteLine("Before file {0}, stream pos {1}, dataOffset {2}", entry.Name, stream.Position, dataOffset);
+
                 Stream inStream = m_Streams[entry.Name];
                 entry.Data.Size = (uint)inStream.Length;
                 entry.Data.Start = dataOffset;
 
                 if (IsCompressed)
                 {
-                    using (MemoryStream ms = new MemoryStream())
+                    long beforeData = stream.Position;
+                    using (ZlibStream zs = new ZlibStream(stream, CompressionMode.Compress, CompressionLevel.BestCompression, true))
                     {
-                        using (ZlibStream zs = new ZlibStream(ms, CompressionMode.Compress, CompressionLevel.BestCompression, true))
-                        {
-                            zs.FlushMode = FlushType.Sync;
-                            inStream.CopyTo(zs);
-                        }
+                        zs.FlushMode = FlushType.Sync;
+                        inStream.CopyTo(zs);
 
-                        ms.Seek(0, SeekOrigin.Begin);
-                        entry.Data.CompressedSize = (uint)ms.Length;
-                        ms.CopyTo(stream);
-                        dataOffset += entry.Data.CompressedSize;
+                        zs.Flush();
                     }
+                    long afterData = stream.Position;
+                    entry.Data.CompressedSize = (uint)(afterData - beforeData);
+                    dataOffset += entry.Data.CompressedSize;
+                    uncompressedSize += entry.Data.Size;
+                    uncompressedSize = uncompressedSize.Align(2048);
                 }
                 else
                 {
@@ -217,16 +221,23 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version04
                     inStream.CopyTo(stream);
                     dataOffset += entry.Data.Size;
                 }
+
+                Console.WriteLine("Wrote file {0}, stream pos {1}, dataOffset {2}", entry.Name, stream.Position, dataOffset);
+
                 stream.Align(2048);
                 dataOffset = dataOffset.Align(2048);
+
+                Console.WriteLine("Wrote file {0}, AFTER ALIGN stream pos {1}, dataOffset {2}", entry.Name, stream.Position, dataOffset);
             }
+
+            stream.SetLength(stream.Position);
 
             // Write Header
             stream.Seek(0, SeekOrigin.Begin);
             FileData.Descriptor = 0x51890ACE;
             FileData.Version = 0x04;
-            FileData.CompressedDataSize = 0xFFFFFFFF;
-            FileData.UncompressedDataSize = dataOffset;
+            FileData.CompressedDataSize = IsCompressed ? dataOffset : 0xFFFFFFFF;
+            FileData.UncompressedDataSize = IsCompressed ? uncompressedSize : dataOffset;
             FileData.PackageSize = (uint)stream.Length;
             stream.WriteStruct(FileData);
             
@@ -236,6 +247,8 @@ namespace ThomasJepp.SaintsRow.Packfiles.Version04
             {
                 stream.WriteStruct(entry.Data);
             }
+
+            Console.WriteLine("Stream length: {0}", (uint)stream.Length);
         }
 
 

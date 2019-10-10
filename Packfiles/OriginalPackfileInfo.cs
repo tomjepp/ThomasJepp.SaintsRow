@@ -23,6 +23,30 @@ namespace ThomasJepp.SaintsRow.Packfiles
         public static Dictionary<GameSteamID, Dictionary<string, PackageOptions>> OptionsList = new Dictionary<GameSteamID,Dictionary<string,PackageOptions>>
         {
             {
+                GameSteamID.SaintsRow2,
+                new Dictionary<string, PackageOptions>
+                {
+                    { "anims.vpp_pc", new PackageOptions(false, true) },
+                    { "audio.vpp_pc", new PackageOptions(false, false) },
+                    { "chunks1.vpp_pc", new PackageOptions(false, true) },
+                    { "chunks2.vpp_pc", new PackageOptions(false, true) },
+                    { "chunks3.vpp_pc", new PackageOptions(false, true) },
+                    { "chunks4.vpp_pc", new PackageOptions(false, true) },
+                    { "city_load.vpp_pc", new PackageOptions(false, true) },
+                    { "common.vpp_pc", new PackageOptions(false, false) },
+                    { "cutscenes.vpp_pc", new PackageOptions(false, false) },
+                    { "hmaps.vpp_pc", new PackageOptions(false, true) },
+                    { "meshes.vpp_pc", new PackageOptions(false, true) },
+                    { "music1.vpp_pc", new PackageOptions(false, false) },
+                    { "music2.vpp_pc", new PackageOptions(false, false) },
+                    { "music3.vpp_pc", new PackageOptions(false, false) },
+                    { "music4.vpp_pc", new PackageOptions(false, false) },
+                    { "patch.vpp_pc", new PackageOptions(false, true) },
+                    { "pegs.vpp_pc", new PackageOptions(false, true) },
+                    { "textures.vpp_pc", new PackageOptions(false, true) },
+                }
+            }
+            {
                 GameSteamID.SaintsRowTheThird,
                 new Dictionary<string, PackageOptions>
                 {

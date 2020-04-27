@@ -45,7 +45,7 @@ namespace ThomasJepp.SaintsRow.Packfiles
                     { "pegs.vpp_pc", new PackageOptions(false, true) },
                     { "textures.vpp_pc", new PackageOptions(false, true) },
                 }
-            }
+            },
             {
                 GameSteamID.SaintsRowTheThird,
                 new Dictionary<string, PackageOptions>
